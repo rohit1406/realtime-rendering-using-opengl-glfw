@@ -1,0 +1,66 @@
+#version 450 core
+
+//in parameters
+in VS_OUT
+{
+ vec3 out_frag_pos;
+ vec2 out_texcoords;
+ vec3 out_tangent_light_pos;
+ vec3 out_tangent_view_pos;
+ vec3 out_tangent_frag_pos;
+} fs_in;
+
+//out parameters
+out vec4 FragColor;
+
+//uniforms
+uniform vec3 u_light_position;
+uniform vec3 u_viewer_position;
+uniform sampler2D u_sampler_normal_map;
+uniform sampler2D u_sampler_brick_texture;
+uniform bool blinn;
+
+void main()
+{
+	vec3 color = texture(u_sampler_brick_texture, fs_in.out_texcoords).rgb;
+
+//ambient	
+float ambient_factor = 0.1; //a constant ambient factor
+//multiply object color by this ambient color
+vec3 ambient_lighting = ambient_factor * color;
+
+//diffuse lighting calculations
+//normalizing because we don't care about the light magnitude or position of the vector, we only care about the direction
+//so all calculations are done using unit vectors
+vec3 normal = texture(u_sampler_normal_map, fs_in.out_texcoords).rgb;
+//transform normals to -1,1 
+vec3 norm = normalize(normal * 2.0 - 1.0); //this is in tangent space
+vec3 light_direction = normalize(fs_in.out_tangent_light_pos - fs_in.out_tangent_frag_pos); //light's direction vector
+
+//calculate diffuse impact
+//if angle is greater than 90 then dot product will become negative and we end up with negative diffuse component
+//so we are using max, because lighting for -ve values in not defined
+float diff = max(dot(light_direction, norm),0.0);
+
+//diffuse lighting
+vec3 diffuse_lighting = diff * color;
+
+//calculate specular intensity
+vec3 viewer_direction = normalize(fs_in.out_tangent_view_pos - fs_in.out_tangent_frag_pos); //viewer direction vector
+//reflect vector along the normal axis
+//reverse the direction of the light_direction vector so that it comes from light source to the fragment position, currently it is from frag pos to light source
+vec3 reflect_direction = reflect(-light_direction, norm);
+vec3 halfway_direction = normalize(light_direction + viewer_direction);
+float spec = pow(max(dot(norm, halfway_direction), 0.0), 32.0);
+
+vec3 specular_lighting = spec * vec3(0.2);;
+
+//final color
+vec3 final_color = (ambient_lighting + diffuse_lighting + specular_lighting);
+
+FragColor = vec4(final_color,1.0);
+
+//gamma correction
+//float gamma = 2.2;
+//FragColor.rgb = pow(final_color.rgb, vec3(1.0/gamma));
+}

@@ -1,0 +1,201 @@
+#ifndef SHADER_H
+#define SHADER_H
+
+//include GLAD to get all the required OpenGL headers
+#include "Include\glad\glad.h"
+#include<string>
+#include<fstream> //to perform file operations
+#include<sstream> //read from filestream to stringstream
+#include<iostream>
+
+/*Shader: Reads Shaders From Disk, Compiles and Links them, check for erros*/
+class Shader
+{
+//members visible outside class also
+public:
+	unsigned int id; //the shader program ID
+
+	//constructor which reads and builds the shader program object
+	Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
+
+	//use/activate the shader program object
+	void use();
+
+	//utility uniform functions
+	void setBool(const std::string &name, bool value) const;
+	void setInt(const std::string &name, int value) const;
+	void setFloat(const std::string &name, float value) const;
+
+private:
+	// utility function for checking shader compilation/linking errors.
+	// ------------------------------------------------------------------------
+	void checkCompileErrors(unsigned int shader, std::string type)
+	{
+		int success;
+		char infoLog[1024];
+		if (type != "PROGRAM")
+		{
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+			if (!success)
+			{
+				glGetShaderInfoLog(shader, 1024, NULL, infoLog);
+				std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+			}
+		}
+		else
+		{
+			glGetProgramiv(shader, GL_LINK_STATUS, &success);
+			if (!success)
+			{
+				glGetProgramInfoLog(shader, 1024, NULL, infoLog);
+				std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+			}
+		}
+	}
+};
+
+Shader::Shader(const GLchar* vertexPath, const GLchar* fragmentPath)
+{
+	//1. Retrieve vertex and fragment shader source code from file path
+	//local variable declarations
+	std::string lstVertexCode; //for vertex shader source code
+	std::string lstFragmentCode; //for fragment shader source code
+
+	//cpp file streams to read the contents from file
+	std::ifstream lsmVertexShaderFile; //input stream of VS file
+	std::ifstream lsmFragmentShaderFile; //input stream of FS file
+	
+	//ensure ifstream objects can throw exceptions
+	lsmVertexShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+	lsmFragmentShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+	//std::cout << "DEBUG: Reading shader code from files" << std::endl;
+	try
+	{
+		//open files
+		lsmVertexShaderFile.open(vertexPath);
+		lsmFragmentShaderFile.open(fragmentPath);
+
+		//read files buffer contents into stream
+		std::stringstream lstsmVertexShaderStream, lstsmFragmentShaderStream;
+		lstsmVertexShaderStream << lsmVertexShaderFile.rdbuf();
+		lstsmFragmentShaderStream << lsmFragmentShaderFile.rdbuf();
+
+		//close file handlers now
+		lsmVertexShaderFile.close();
+		lsmFragmentShaderFile.close();
+
+		//convert stream to string
+		lstVertexCode = lstsmVertexShaderStream.str();
+		lstFragmentCode = lstsmFragmentShaderStream.str();
+	}
+	catch (std::ifstream::failure e)
+	{
+		std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ"<<std::endl;
+	}
+
+	const char* vSourceCode = lstVertexCode.c_str();
+	const char* fSourceCode = lstFragmentCode.c_str();
+	//till here we get the  source code of vertex shader and fragment shader
+	//now we must compile and link the vertex shader and fragment shader
+
+	/*************2. Compile Shaders************/
+	unsigned int vertexShaderObject, fragmentShaderObject;
+	int success;
+	char infoLog[512]; //buffer for storing logs
+
+	/************VERTEX SHADER*************/
+	//create shader object
+	vertexShaderObject = glCreateShader(GL_VERTEX_SHADER);
+
+	//pass shader source code to the shader object
+	glShaderSource(
+					vertexShaderObject, //I want to pass source code to vertexShaderObject
+					1, //how many strings you are passing as a source code
+					&vSourceCode, //actual source code
+					NULL //length of the source code
+				);
+
+	//compile shader now
+	glCompileShader(
+					vertexShaderObject //shader object you want to compile
+				);
+
+	//check for compilation issues, if any
+	checkCompileErrors(vertexShaderObject, "VERTEX");
+
+	/************FRAGMENT SHADER*************/
+	success = 0; //re-initialize variable
+	free(infoLog); //free log buffer
+	//create shader object
+	fragmentShaderObject = glCreateShader(GL_FRAGMENT_SHADER);
+
+	//pass shader source code to the shader object
+	glShaderSource(
+		fragmentShaderObject, //I want to pass source code to fragmentShaderObject
+		1, //how many strings you are passing as a source code
+		&fSourceCode, //actual source code
+		NULL //length of the source code
+	);
+
+	//compile shader now
+	glCompileShader(
+		fragmentShaderObject //shader object you want to compile
+	);
+
+	//check for compilation issues, if anys
+	checkCompileErrors(fragmentShaderObject, "FRAGMENT");
+
+	/**********3. LINK SHADERS***********************/
+	/**********CREATE SHADER PROGRAM OBJECT**************/
+	success = 0; //re-initialize variable
+	free(infoLog); //free log buffer
+
+	//create shader program object
+	id = glCreateProgram();
+
+	//attach vertex shader object
+	glAttachShader(id, //to which program object you want to attach shader object
+				vertexShaderObject //shader object to attach
+				);
+
+	//attach fragment shader object
+	glAttachShader(id, //to which program object you want to attach shader object
+		fragmentShaderObject //shader object to attach
+	);
+
+	//link shaders: link output of prev. shader to input of next shader
+	glLinkProgram(id);
+
+	//check for linkage errors
+	checkCompileErrors(id, "PROGRAM");
+
+	// delete the shaders as they're linked into our program now and no longer necessery
+	glDetachShader(id, vertexShaderObject);
+	glDetachShader(id, fragmentShaderObject);
+}
+
+
+/*Shader::use - activate/use the shader program object*/
+void Shader::use()
+{
+	glUseProgram(id);
+}
+
+void Shader::setBool(const std::string &name, bool value) const
+{
+	int uniformLocation = glGetUniformLocation(id, name.c_str());
+	glUniform1i(uniformLocation, (int) value);
+}
+
+void Shader::setInt(const std::string &name, int value) const
+{
+	int uniformLocation = glGetUniformLocation(id, name.c_str());
+	glUniform1i(uniformLocation, value);
+}
+
+void Shader::setFloat(const std::string &name, float value) const
+{
+	int uniformLocation = glGetUniformLocation(id, name.c_str());
+	glUniform1f(uniformLocation, (int)value);
+}
+#endif // !SHADER_H
