@@ -1,18 +1,26 @@
-#ifndef _MY_DISPLAYMANAGER_H_
-#define _MY_DISPLAYMANAGER_H_
+#ifndef H_DISPLAYMANAGER
+#define H_DISPLAYMANAGER
 
-#include<Windows.h>
+//header files
+#include <Windows.h>
+
+//for OpenGL
+#include<gl\GL.h>
+//#include<gl\GLU.h>
+
+//macros
+#define WIN_WIDTH 800
+#define WIN_HEIGHT 600
+
+//CALBACK - _far_pascal or __stdcall
+/*
+	_far - keeps this function in OS reserved memory
+	_pascal - follows pascal calling convention; method parameters reading order, who should remove activation records from stack (here callee)
+*/
+extern LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+extern void createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow);
+extern void uninitializeWindow(void); // free up the resources
 
 
-// global-variable delcations
-extern bool gbDone; //for game loop
 
-void createDisplay(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLIne, int iCmdShow); // creates display
-
-void updateDisplay(MSG msg); // updates display each frame
-
-void closeDisplay(void); // closes display
-
-void toggleFullscreen(void); // toggle fullscreen
-
-#endif /* _MY_DISPLAYMANAGER_H_ */
+#endif // !H_DISPLAYMANAGER

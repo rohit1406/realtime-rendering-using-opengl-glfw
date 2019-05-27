@@ -1,53 +1,189 @@
-// headers
 #include"DisplayManager.h"
 
-//macros
-#define WIN_WIDTH 800
-#define WIN_HEIGHT 600
+//global function declarations
+LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-// global variable declarations
-//for full screen of window
+//global variables
+bool gbActiveWindow = false;
+bool gbEscapeKeyPressed = false;
+bool gbDone = false;
 bool gbFullscreen = false;
+
+//bool gbDone = false; //for game loop
+TCHAR gpszExitMessage[255]; //to display while exiting the window
+TCHAR gpszWindowTitle[] = TEXT("OpenGL - Double Buffer Window"); //Window Title
+
+//for full screen of window
+//bool gbFullscreen = false;
 DWORD dwStyle;
 HWND ghwnd = NULL;
 WINDOWPLACEMENT wpPrev = { sizeof(WINDOWPLACEMENT) };
-TCHAR gpszExitMessage[255]; //to display while exiting the window
-bool gbDone = false;
 
-// function prototype declarations
-LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam);
+//single buffer changes
+HDC ghdc = NULL;
+HGLRC ghrc = NULL;
 
-
-// creates the display
-void createDisplay(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLIne, int iCmdShow)
+//window procedure
+LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
-	// local variables
-	WNDCLASSEX wndclass;
-	TCHAR AppName[] = TEXT("window");
-	TCHAR WinName[] = TEXT("Display");
-	HWND hwnd;
+	//function prototype declaration
+	void toggleFullscreen(void);
+	void resize(int, int);
+	void uninitializeWindow(void);
+
+	//local variables
+
+	//code
+	switch (iMsg)
+	{
+	case WM_ACTIVATE://check if window is activated
+		//HIWORD(wParam) tells whether window is active or inactive
+		if (HIWORD(wParam) == 0)
+		{
+			gbActiveWindow = true;
+		}
+		else
+		{
+			gbActiveWindow = false;
+		}
+		break;
+	case WM_SIZE: //when resize happens
+		//LOWORD(lParam) gives us width and HIWORD(lParam) gives us height
+		resize(LOWORD(lParam), HIWORD(lParam));
+		break;
+
+	case WM_DESTROY: //this is mandatory message which needs to be handled
+		//post WM_QUIT message with status 0
+		PostQuitMessage(0);
+		break;
+
+		//By Law, windows has given permission only to WM_PAINT to paint our window. By handling this message, we are telling that my window will be paint by someone else
+		/*case WM_ERASEBKGND: //this message is handled for discipline;
+			return (0);
+			break;*/ //this is not needed for double buffering
+			//key press events
+	case WM_KEYDOWN:
+		switch (LOWORD(wParam))
+		{
+		case 0x52: //R
+
+			break;
+		case 0x47: //G
+
+			break;
+		case 0x42: //B
+
+			break;
+		case 0x43: //C
+
+			break;
+		case 0x4D: //M
+
+			break;
+		case 0x59: //Y
+
+			break;
+		case 0x4B: //K
+
+			break;
+		case 0x57: //W
+
+			break;
+			//full screen
+		case 0x46: //f
+			if (gbFullscreen == true)
+			{
+				toggleFullscreen();
+				gbFullscreen = false;
+			}
+			else
+			{
+				toggleFullscreen();
+				gbFullscreen = true;
+			}
+			break;
+			//exit on escape
+		case VK_ESCAPE:
+			gbEscapeKeyPressed = true;
+			/*wsprintf(gpszExitMessage, TEXT("Press OK to exit now..."));
+			MessageBox(hwnd,
+				gpszExitMessage, //message to display
+				"Thanks For Visiting Me", //message box title
+				MB_OK //message box style (OK/Cancel/YesNo/etc)
+			);*/
+			gbDone = true;
+			break;
+		default:
+
+			break;
+		}
+		break;
+	case WM_CLOSE: //while closing the window
+		uninitializeWindow();
+		break;
+
+	}
+
+	return (DefWindowProc(hwnd, iMsg, wParam, lParam));
+}
+
+void createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+{
+	//function prototype declaration
+	void display(void);
+
+	//local variables
+	WNDCLASSEX wndclass; //window class
+	HWND hwnd; //handle to my window
+	TCHAR lpszAppName[] = TEXT("Windows");
 	RECT rect;
-	
-	//initialize window class
-	wndclass.cbSize = sizeof(WNDCLASSEX);
-	wndclass.style = CS_HREDRAW | CS_VREDRAW;
-	wndclass.lpfnWndProc = WndProc;
-	wndclass.cbClsExtra = 0;
-	wndclass.cbWndExtra = 0;
-	wndclass.hInstance = hInstance;
+
+	//code
+	//steps for creating the window
+	//step1 - initialise WNDCLASSEX - 12 members to initialize
+	wndclass.cbSize = sizeof(WNDCLASSEX); //count of byte size of this structure
+
+	//Redraws the entire window if a movement or size adjustment changes the width/height of the client area
+	wndclass.style = CS_HREDRAW | CS_VREDRAW //class style - horizontal/verticle
+		| CS_OWNDC; //allocate unique device context for each window in the class; Gives me some DC which is non-purgeable or non-discardable
+
+	wndclass.cbClsExtra = 0; //no. of extra bytes to allocate following the window-class structure
+
+	wndclass.cbWndExtra = 0; //no. of extra bytes to allocate following the window instance
+
+	wndclass.lpszClassName = lpszAppName; //Window class name
+
+	wndclass.lpszMenuName = NULL; //resource name of the class menu
+
+	//function name is it's address
+	wndclass.lpfnWndProc = WndProc; //pointer to the window procedure
+
+	wndclass.hInstance = hInstance; //handle to the instance that contains the window procedure for the class
+
+	//this member can be handle to the physical brush to be used for painting the background or it can be a color value
+	wndclass.hbrBackground = NULL;//(HBRUSH) GetStockObject(WHITE_BRUSH);
+
+	//providing second param null loads default icon
 	wndclass.hIcon = LoadIcon(hInstance, TEXT("MYICON")); //it must be handle to an icon resource
-	wndclass.hCursor = LoadCursor(hInstance, TEXT("MYCURSOR"));
-	wndclass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
-	wndclass.lpszMenuName = NULL;
-	wndclass.lpszClassName = AppName;
-	//this is the icon which is shown on left hand side of the window title
+
+	/*wndclass.hIconSm = LoadIcon(
+						NULL, //loads default
+						IDI_APPLICATION //default macro - ID of Icon For Application
+						);*/
+
+						//this is the icon which is shown on left hand side of the window title
 	wndclass.hIconSm = LoadIcon(
 		hInstance, //loads default
 		TEXT("MYICONSM") //it must be handle to an icon resource
 	);
-	//initialization complete
 
-	RegisterClassEx(&wndclass); //Register Class
+	//wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wndclass.hCursor = LoadCursor(hInstance, TEXT("MYCURSOR"));
+
+	//step 2 - Register the initialised window class
+	RegisterClassEx(&wndclass);
+
+	//step 3 - create the window in memory
 
 	//position the window to center
 	//GetSystemMetrics can also be used to retrieve the dimentions of the window display
@@ -61,23 +197,26 @@ void createDisplay(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLI
 	int x = ((rect.right - rect.left) / 2) - (WIN_WIDTH / 2);
 	int y = ((rect.bottom - rect.top) / 2) - (WIN_HEIGHT / 2);
 
-
-	//create window in memory
-	hwnd = CreateWindow(
-		AppName,
-		WinName,
-		WS_OVERLAPPEDWINDOW,
-		x,
-		y,
-		WIN_WIDTH,
-		WIN_HEIGHT,
-		NULL,
-		NULL,
-		hInstance,
-		NULL
+	hwnd = CreateWindowEx(
+		WS_EX_APPWINDOW, //forces the top-level window on the taskbar when window is visible
+		lpszAppName, //window class name
+		gpszWindowTitle, //window name
+		//WS_OVERLAPPED | WS_CAPTION | WS_THICKFRAME | WS_SYSMENU | WS_MINIMISEBOX | WS_MAXIMISEBOX
+		WS_OVERLAPPEDWINDOW //specifies style of the window being created
+		| WS_CLIPCHILDREN //excludes the area occupied by child windows when drawing occurs within parent window
+		| WS_CLIPSIBLINGS //clip child windows relative to each other
+		| WS_VISIBLE, //creates a window that is initially visible
+		x, //horizontal position of window
+		y,// vertical position of the window
+		WIN_WIDTH, //width of the window
+		WIN_HEIGHT, //height of the window
+		NULL, //handle to the parent window of the window being created
+		NULL, //handle to menu or child window identifier
+		hInstance, //handle to the instance of the module to be associated with the window
+		NULL //long ptr to the value to be passed to the window
 	);
-	ghwnd = hwnd;
 
+	ghwnd = hwnd;
 	//error checking for window
 	if (hwnd == NULL)
 	{
@@ -90,21 +229,23 @@ void createDisplay(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLI
 		exit(0); //normal exit the application
 	}
 
-	ShowWindow(hwnd, iCmdShow); //Show Window
-	UpdateWindow(hwnd); // color/paint the background of the window
-}
+	//step 4 - show window on desktop
+	ShowWindow(
+		hwnd, //handle to window
+		nCmdShow //show state; maximized, minimized, hide, show, etc
+	);
 
-// updates display each frame
-void updateDisplay(MSG msg) 
-{
-	TranslateMessage(&msg);
-	DispatchMessage(&msg);
-	//translate and dispatch message
-}
 
-void closeDisplay(void) // closes display
-{
-	PostQuitMessage(0);
+	//step 5 - color/paint the background of the window
+	//Paint the Window Background by using brush provided in wnd class using UpdateWindow()
+	//it paints the entire client area by sending WM_PAINT message
+	//when part of the window needs to be painted then we can call InvalidateRect()
+	//UpdateWindow(hwnd);
+	//instead of UpdateWindow(), using below
+	//SetForegroundWindow puts the thread that created the window into foreground and activates the window
+	//by maximizing the thread priority, keyboard input is directed to the window
+	SetForegroundWindow(hwnd);
+	SetFocus(hwnd); //sets the keyboard focus to the specified window
 }
 
 void toggleFullscreen(void)
@@ -184,42 +325,25 @@ void toggleFullscreen(void)
 }
 
 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
+void resize(int width, int height)
 {
-	switch (iMsg)
+	if (height == 0)
 	{
-	case WM_DESTROY:
-		closeDisplay();
-		break;
-		//key press events
-	case WM_KEYDOWN:
-		switch (LOWORD(wParam))
-		{
-			//full screen
-		case 0x46: //f
-			if (gbFullscreen == true)
-			{
-				toggleFullscreen();
-				gbFullscreen = false;
-			}
-			else
-			{
-				toggleFullscreen();
-				gbFullscreen = true;
-			}
-			break;
-			//exit on escape
-		case VK_ESCAPE:
-			/*wsprintf(gpszExitMessage, TEXT("Press OK to exit now..."));
-			MessageBox(hwnd,
-				gpszExitMessage, //message to display
-				"Thanks For Visiting Me", //message box title
-				MB_OK //message box style (OK/Cancel/YesNo/etc)
-			);*/
-			gbDone = true;
-			break;
-		}
+		height = 1;
+		glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 	}
+}
 
-	return DefWindowProc(hwnd, iMsg, wParam, lParam);
+void uninitializeWindow(void)
+{
+	if (gbFullscreen == true)
+	{
+		dwStyle = GetWindowLong(ghwnd, GWL_STYLE);
+		SetWindowLong(ghwnd, GWL_STYLE, dwStyle | WS_OVERLAPPEDWINDOW);
+		SetWindowPlacement(ghwnd, &wpPrev);
+		SetWindowPos(ghwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOOWNERZORDER | SWP_NOZORDER | SWP_FRAMECHANGED);
+
+		ShowCursor(TRUE);
+
+	}
 }
