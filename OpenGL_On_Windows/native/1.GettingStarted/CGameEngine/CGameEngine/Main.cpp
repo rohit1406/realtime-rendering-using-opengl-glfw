@@ -51,6 +51,7 @@ Steps to Convert from Single Buffer Window to Double Buffer Window -
 #pragma comment(lib, "gdi32.lib")
 #pragma comment(lib, "kernel32.lib")
 #pragma comment(lib, "opengl32.lib")
+#pragma comment(lib, "glew32.lib")
 
 //entry-point function
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -59,7 +60,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	MSG msg; //to get the message from the pool
 
 	init(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
-
+	
 	//message loop
 	/*
 		Since GetMessage takes only Hardware Messages,

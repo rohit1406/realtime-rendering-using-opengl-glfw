@@ -69,7 +69,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -79,6 +82,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -124,11 +128,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DisplayManager.h" />
+    <ClInclude Include="Loader.h" />
     <ClInclude Include="OpenGLRenderer.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DisplayManager.cpp" />
+    <ClCompile Include="Loader.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="OpenGLRenderer.cpp" />
   </ItemGroup>
