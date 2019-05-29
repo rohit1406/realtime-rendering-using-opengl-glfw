@@ -2,11 +2,14 @@
 #define H_DISPLAYMANAGER
 
 //header files
-#include <Windows.h>
+#include<iostream>
+#include<stdio.h>
+#include<vector>
+#include<Windows.h>
 
-//for OpenGL
-#include<gl\GL.h>
-//#include<gl\GLU.h>
+#define GLEW_STATIC
+#include<GL/glew.h>
+#include<gl/GL.h> // for OpenGL
 
 //macros
 #define WIN_WIDTH 800

@@ -1,6 +1,20 @@
 // header files
+
 #include"OpenGLRenderer.h"
 #include"DisplayManager.h"
+#include"ShaderProgram.h"
+#include"Models.h"
+
+using namespace std;
+
+// function prototype declarations
+extern void loadPositionDataToVAO(int dataSize, const float data[], int dimentsions, struct RawModel *rawModel);
+extern vector<GLuint> giShaderList;
+extern vector<GLuint> giShaderProgramObjectList;
+
+// global variables
+GLuint giEntityShaderProgram;
+struct RawModel gTriangleModel;
 
 // initialize rendering
 void init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -81,6 +95,9 @@ void initializeOpenGL(void)
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
 	//resize(WIN_WIDTH, WIN_HEIGHT); //not needed for double buffering
+
+	// prepare the rendering
+	prepareOpenGLForRendering();
 }
 
 // render scene to display
@@ -89,9 +106,53 @@ void render(void)
 	display(); // display our game
 }
 
+// initialize VAOs, VBOs, EBOs, Shader programs
+void prepareOpenGLForRendering()
+{
+	//GLEW initialization code for GLSL
+	GLenum glew_error = glewInit();
+	if (glew_error != GLEW_OK)
+	{
+		wglDeleteContext(ghrc);
+		ghrc = NULL;
+		ReleaseDC(ghwnd, ghdc);
+		ghdc = NULL;
+	}
+
+	// create shader program object
+	giEntityShaderProgram = buildShaderProgramObject();
+
+	// data
+	const float vertices[] = {
+	-0.5f, -0.5f, 0.0f,
+	 0.5f, -0.5f, 0.0f,
+	 0.0f,  0.5f, 0.0f
+	};
+
+	int numElements = sizeof(vertices)/sizeof(vertices[0]);
+	int dimentions = 3;
+	// load data to VAO
+	loadPositionDataToVAO(numElements, vertices, dimentions, &gTriangleModel);
+}
+
 // uninitialize OpenGL context
 void uninitializeOpenGL(void)
 {
+	// local variables
+	std::vector<GLuint>::size_type index;
+
+	// delete shaders
+	for (index = 0; index != giShaderList.size(); index++)
+	{
+		glDeleteShader(giShaderList[index]);
+	}
+
+	// delete shader program objects
+	for (index = 0; index != giShaderProgramObjectList.size(); index++)
+	{
+		glDeleteProgram(giShaderProgramObjectList[index]);
+	}
+
 	// uninitialize window first
 	uninitializeWindow();
 
@@ -113,6 +174,16 @@ void display(void)
 	//code
 	glClear(GL_COLOR_BUFFER_BIT);
 
+	startProgram(giEntityShaderProgram);
+	// bind VAO
+	glBindVertexArray(gTriangleModel.vaoID);
+	glEnableVertexAttribArray(0); // enable attribute 0
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDisableVertexAttribArray(0);// disable attribute 0
+	
+	//unbind VAO
+	glBindVertexArray(0);
+	stopProgram();
 
 	//glFlush(); //removing this as not needed for double buffer; instead use below
 	SwapBuffers(ghdc);

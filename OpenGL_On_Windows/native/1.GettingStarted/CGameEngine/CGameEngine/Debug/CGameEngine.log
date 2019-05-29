@@ -1,6 +1,2 @@
-﻿  Loader.cpp
-  Main.cpp
-  Generating Code...
-LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
-glew32s.lib(glew.obj) : warning LNK4099: PDB '' was not found with 'glew32s.lib(glew.obj)' or at ''; linking object as if no debug info
+﻿  DisplayManager.cpp
   CGameEngine.vcxproj -> C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\Debug\CGameEngine.exe
