@@ -12,7 +12,7 @@ GLuint createEmptyVAO()
 }
 
 // Creates VBO and stores data in it
-void storeDataInBuffer(int attributeNumber, int coordinateSize, int dataSize, const float data[])
+void storeDataInBuffer(int attributeNumber, int coordinateSize, int numElements, const float data[])
 {
 	GLuint vboID;
 	glGenBuffers(1, &vboID); // create VBO
@@ -24,7 +24,7 @@ void storeDataInBuffer(int attributeNumber, int coordinateSize, int dataSize, co
 	//any buffer calls we make (on the GL_ARRAY_BUFFER target) will be used to configure the 
 	//currently bound buffer, which is vboID
 	glBufferData(GL_ARRAY_BUFFER, // which type of buffer we want to send data to
-		dataSize, // size of the data
+		numElements * sizeof(GL_FLOAT), // size of the data
 		data, // actual data
 		GL_STATIC_DRAW // the data will most likely not change at all or very rarely
 	);
@@ -41,6 +41,25 @@ void storeDataInBuffer(int attributeNumber, int coordinateSize, int dataSize, co
 	);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0); // unbind VBO
+}
+
+// binds the indices to be used with the VAO
+void bindIndicesToVAO(int dataSize, const unsigned int indices[])
+{
+	GLuint eboID;
+	glGenBuffers(1, &eboID); // create EBO
+
+	//OpenGL has many types of buffer objects and the buffer type of a vertex buffer object is GL_ARRAY_BUFFER
+	//OpenGL allows us to bind to several buffers at once as long as they have a different buffer type
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboID); // bind VBO
+	// pass data to EBO
+	//any buffer calls we make (on the GL_ARRAY_BUFFER target) will be used to configure the 
+	//currently bound buffer, which is vboID
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, // which type of buffer we want to send data to
+		dataSize * sizeof(GL_UNSIGNED_INT), // size of the data
+		indices, // actual data
+		GL_STATIC_DRAW // the data will most likely not change at all or very rarely
+	);
 }
 
 // unbinds currently bound VAO
@@ -61,6 +80,32 @@ void loadPositionDataToVAO(int numElements, const float data[], int dimentsions,
 
 	// unbind VAO
 	unbindVAO();
+
+	rawModel->vertexCount = numElements / dimentsions;
+}
+
+// loads position data along with indices to vao
+void loadPositionDataWithIndicesToVAO(int numElements, const float data[], int indicesSize, const unsigned int indices[], int dimentsions, struct RawModel* rawModel)
+{
+	// create empty VAO
+	rawModel->vaoID = createEmptyVAO();
+
+	// bind EBO
+	/*
+	A VAO stores the glBindBuffer calls when the target is GL_ELEMENT_ARRAY_BUFFER. 
+	This also means it stores its unbind calls so make sure you don't unbind the element array buffer 
+	before unbinding your VAO, otherwise it doesn't have an EBO configured. 
+	*/
+	bindIndicesToVAO(indicesSize, indices);
+
+	// store data in VBO
+	storeDataInBuffer(0, dimentsions, numElements, data);
+
+	// unbind VAO
+	unbindVAO();
+
+	// unbind EBO
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	rawModel->vertexCount = numElements / dimentsions;
 }
