@@ -1,2 +1,3 @@
 ﻿  OpenGLRenderer.cpp
+C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\OpenGLRenderer.cpp(203,13): warning C4244:  'initializing': conversion from 'double' to 'float', possible loss of data
   CGameEngine.vcxproj -> C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\Debug\CGameEngine.exe

@@ -5,6 +5,8 @@
 #include"ShaderProgram.h"
 #include"Models.h"
 #include"OpenGLStateChanger.h"
+#include"GameUtils.h"
+#include"Loader.h"
 
 using namespace std;
 
@@ -16,8 +18,7 @@ extern vector<GLuint> giShaderProgramObjectList;
 
 // global variables
 GLuint giEntityShaderProgram;
-struct RawModel gLeftTriangleModel;
-struct RawModel gRightTriangleModel;
+struct RawModel gTriangleModel;
 
 // initialize rendering
 void init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -123,28 +124,20 @@ void prepareOpenGLForRendering()
 	}
 
 	// create shader program object
-	giEntityShaderProgram = buildShaderProgramObject();
+	giEntityShaderProgram = buildShaderProgramObject("vertexShader.vs", "shaders\fragmentShader.fs");
+
+	// Load uniforms
+	getAllUniformLocations(); // get the uniform locations
 
 	// data
-	const float verticesLeft[] = {
-	/*0.5f,  0.5f, 0.0f,  // top right
-	 0.5f, -0.5f, 0.0f,  // bottom right
-	-0.5f, -0.5f, 0.0f,  // bottom left
-	-0.5f,  0.5f, 0.0f   // top left */
-		// first triangle
-		-0.5f, 0.5f, 0.0f,
-		-0.75f, -0.75f, 0.0, 
-		-0.25f, -0.25f, 0.0f
+	const float vertices[] = {
+		// positions         // colors
 		
-	};
-
-	const float verticesRight[] = {
+		-0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom left
 		
-		// second triangle
-		0.5f, 0.5f, 0.0f,
-		0.25f, -0.25f, 0.0f,
-		0.75f, -0.75f, 0.0
-
+		  0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom right
+		   0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
+		
 	};
 
 	const unsigned int indices[] = {  // note that we start from 0!
@@ -152,14 +145,13 @@ void prepareOpenGLForRendering()
 	1, 2, 3    // second triangle
 	};
 
-	int numElements = sizeof(verticesLeft)/sizeof(verticesLeft[0]);
+	int numElements = sizeof(vertices)/sizeof(vertices[0]);
 	int dimentions = 3;
 	int numIndices = sizeof(indices) / sizeof(indices[0]);
 	// load data to VAO
-	loadPositionDataToVAO(numElements, verticesLeft, dimentions, &gLeftTriangleModel);
-
-	numElements = sizeof(verticesRight) / sizeof(verticesRight[0]);
-	loadPositionDataToVAO(numElements, verticesRight, dimentions, &gRightTriangleModel);
+	//loadPositionDataToVAO(numElements, vertices, dimentions, &gTriangleModel);
+	loadInterleavedDataToVAO(numElements, vertices, true, false, &gTriangleModel);
+	
 	//loadPositionDataWithIndicesToVAO(numElements, vertices, numIndices, indices, dimentions, &gTriangleModel);
 }
 
@@ -197,6 +189,7 @@ void uninitializeOpenGL(void)
 	ghwnd = NULL;
 }
 
+
 void display(void)
 {
 	//code
@@ -204,24 +197,19 @@ void display(void)
 
 	startProgram(giEntityShaderProgram);
 	// bind VAO
-	glBindVertexArray(gLeftTriangleModel.vaoID);
-	glEnableVertexAttribArray(0); // enable attribute 0
-	glDrawArrays(GL_TRIANGLES, 0, gLeftTriangleModel.vertexCount);
+	glBindVertexArray(gTriangleModel.vaoID);
+
+	//load uniforms
+	float gVal = (sin(timeSinceEpochMillisec() / 1000) / 2.0) + 0.5f; // vary the color in the range of 0.0 and 1.0
+	vector<GLfloat> color{ 0.0f, gVal, 0.0f, 1.0f };
+	loadVertexColor(color);
+
+	glDrawArrays(GL_TRIANGLES, 0, gTriangleModel.vertexCount);
 	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); // for indexed drawing
-	glDisableVertexAttribArray(0);// disable attribute 0
 	
 	//unbind VAO
 	glBindVertexArray(0);
 
-
-	// bind VAO
-	glBindVertexArray(gRightTriangleModel.vaoID);
-	glEnableVertexAttribArray(0); // enable attribute 0
-	glDrawArrays(GL_TRIANGLES, 0, gRightTriangleModel.vertexCount);
-	glDisableVertexAttribArray(0);// disable attribute 0
-
-	//unbind VAO
-	glBindVertexArray(0);
 	stopProgram();
 	
 	//glFlush(); //removing this as not needed for double buffer; instead use below

@@ -4,22 +4,17 @@ using namespace std;
 
 vector<GLuint> giShaderList;
 vector<GLuint> giShaderProgramObjectList;
+GLuint gShaderProgram;
+GLuint gLocColor;
 
 // builds the vertex shader
-GLuint buildVertexShader()
+GLuint buildVertexShader(const char *vertexShaderFileName)
 {
 	// local variables
 	GLuint vertexShader;
 
 	// shader source code
-	const GLchar* vertexShaderSourceCode = 
-		"#version 330 core"\
-		"\n"\
-		"layout (location = 0) in vec3 aPosition;"\
-		"void main()"\
-		"{"\
-		"gl_Position = vec4(aPosition.x, aPosition.y, aPosition.z, 1.0);"\
-		"}";
+	const GLchar* vertexShaderSourceCode = readShader(vertexShaderFileName);
 
 	// code
 	vertexShader = glCreateShader(GL_VERTEX_SHADER); // creates vertex shader object
@@ -44,20 +39,13 @@ GLuint buildVertexShader()
 }
 
 // builds fragment shader
-GLuint buildFragmentShader()
+GLuint buildFragmentShader(const char* fragmentShaderFileName)
 {
 	// local variables
 	GLuint fragmentShader;
 
 	// shader source code
-	const GLchar* fragmentShaderSourceCode =
-		"#version 330 core"\
-		"\n"\
-		"out vec4 FragColor;"\
-		"void main()"\
-		"{"\
-		"FragColor = vec4(1.0, 0.5, 0.2, 1.0);"\
-		"}";
+	const GLchar* fragmentShaderSourceCode = readShader(fragmentShaderFileName);
 
 	// code
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER); // creates fragment shader object
@@ -82,16 +70,16 @@ GLuint buildFragmentShader()
 }
 
 // builds the shader program object
-GLuint buildShaderProgramObject()
+GLuint buildShaderProgramObject(const char* vertexShaderFileName, const char* fragmentShaderFileName)
 {
 	// local variables
 	GLuint shaderProgramObject;
 
 	// code
 	// get the vertex shader and fragment shader objects
-	GLuint vertexShader = buildVertexShader();
-	GLuint fragmentShader = buildFragmentShader();
-
+	GLuint vertexShader = buildVertexShader(vertexShaderFileName);
+	GLuint fragmentShader = buildFragmentShader(fragmentShaderFileName);
+	cout << "File Names" << vertexShaderFileName << endl;
 	// create shader program
 	shaderProgramObject = glCreateProgram();
 
@@ -114,6 +102,7 @@ GLuint buildShaderProgramObject()
 		cout << "ERROR::LINKAGE_FAILURE::Linkage error Logs: " << infoLog << endl;
 	}
 	giShaderProgramObjectList.push_back(shaderProgramObject);
+	gShaderProgram = shaderProgramObject;
 	return shaderProgramObject;
 }
 
@@ -127,4 +116,17 @@ void startProgram(GLuint shaderProgram)
 void stopProgram()
 {
 	glUseProgram(0);
+}
+
+
+// gets all uniform locations
+void getAllUniformLocations()
+{
+	gLocColor = glGetUniformLocation(gShaderProgram, "u_vertex_color");
+}
+
+// loads vertex color
+void loadVertexColor(vector<GLfloat> color)
+{
+	setVector4v(gLocColor, color);
 }
