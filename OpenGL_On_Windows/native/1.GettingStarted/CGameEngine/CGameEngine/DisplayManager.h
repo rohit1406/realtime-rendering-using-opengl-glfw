@@ -24,6 +24,6 @@ extern LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 extern void createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow);
 extern void uninitializeWindow(void); // free up the resources
 
-
+extern float gMixParam;
 
 #endif // !H_DISPLAYMANAGER

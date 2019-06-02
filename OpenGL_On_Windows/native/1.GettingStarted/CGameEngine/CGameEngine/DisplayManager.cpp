@@ -23,6 +23,8 @@ WINDOWPLACEMENT wpPrev = { sizeof(WINDOWPLACEMENT) };
 HDC ghdc = NULL;
 HGLRC ghrc = NULL;
 
+float gMixParam = 0.0f;
+
 //window procedure
 LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -112,6 +114,22 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 				MB_OK //message box style (OK/Cancel/YesNo/etc)
 			);*/
 			gbDone = true;
+			break;
+
+		case VK_UP:
+			gMixParam += 0.1f;
+			if (gMixParam > 1.0f)
+			{
+				gMixParam = 1.0f;
+			}
+			break;
+
+		case VK_DOWN:
+			gMixParam -= 0.1f;
+			if (gMixParam < 0.0f)
+			{
+				gMixParam = 0.0f;
+			}
 			break;
 		default:
 

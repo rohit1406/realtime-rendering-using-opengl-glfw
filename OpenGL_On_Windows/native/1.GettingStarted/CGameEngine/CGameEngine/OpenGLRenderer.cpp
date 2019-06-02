@@ -21,6 +21,7 @@ GLuint giEntityShaderProgram;
 struct TexturedModel gBricksModelTexture;
 
 float offset = -1.5;
+extern float gMixParam;
 // initialize rendering
 void init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -138,10 +139,10 @@ void prepareOpenGLForRendering()
 	// data
 	float vertices[] = {
 		// positions          // colors           // texture coords
-		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   2.0f, 2.0f,   // top right
+		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   2.0f, 0.0f,   // bottom right
 		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
+		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 2.0f    // top left 
 	};
 
 	unsigned int indices[] = {  // note that we start from 0!
@@ -225,7 +226,7 @@ void display(void)
 	//load uniforms
 	float gVal = (sin(timeSinceEpochMillisec() / 1000) / 2.0) + 0.5f; // vary the color in the range of 0.0 and 1.0
 	loadPositionOffset(offset);
-
+	loadMixParam(gMixParam);
 	//glDrawArrays(GL_TRIANGLES, 0, gBricksModelTexture.rawModel.vertexCount);
 	glDrawElements(GL_TRIANGLES, gBricksModelTexture.rawModel.vertexCount, GL_UNSIGNED_INT, 0); // for indexed drawing
 	
