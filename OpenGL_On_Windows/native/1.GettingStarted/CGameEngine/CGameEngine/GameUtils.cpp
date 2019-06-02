@@ -2,8 +2,8 @@
 #include"GameUtils.h"
 
 // global variables
-std::string SHADER_RESOURCE_FILE_LOC = "C:\\Users\\RohitMuneshwar\\Documents\\IBM\\RTR\\projects\\learn_opengl\\OpenGL_On_Windows\\native\\1.GettingStarted\\CGameEngine\\CGameEngine\\shaders\\";
-
+std::string SHADER_RESOURCE_FILE_LOC = "C:\\Users\\RohitMuneshwar\\Documents\\IBM\\RTR\\projects\\learn_opengl\\OpenGL_On_Windows\\native\\1.GettingStarted\\CGameEngine\\CGameEngine\\res\\shaders\\";
+std::string IMAGES_RESOURCE_FILE_LOC = "C:\\Users\\RohitMuneshwar\\Documents\\IBM\\RTR\\projects\\learn_opengl\\OpenGL_On_Windows\\native\\1.GettingStarted\\CGameEngine\\CGameEngine\\res\\images\\";
 /*
 get current system time: std::chrono::system_clock::now()
 get time since epoch: .time_since_epoch()

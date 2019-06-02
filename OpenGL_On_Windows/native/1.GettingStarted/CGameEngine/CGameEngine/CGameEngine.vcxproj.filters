@@ -16,6 +16,9 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{b3431a82-b9f1-4d4a-bd23-e28b87a5efe4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="images">
+      <UniqueIdentifier>{3a86a8b9-91a5-47d3-8cf0-274a6de332d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisplayManager.h">
@@ -43,6 +46,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -79,10 +85,10 @@
     <None Include="res\MyCursor.cur">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="shaders\fragmentShader.fs">
+    <None Include="res\shaders\fragmentShader.fs">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="shaders\vertexShader.vs">
+    <None Include="res\shaders\vertexShader.vs">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
@@ -92,6 +98,15 @@
     </Image>
     <Image Include="res\MyIconSm.ico">
       <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\images\wall.jpg">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="res\images\container.jpg">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="res\images\awesomeface.png">
+      <Filter>images</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

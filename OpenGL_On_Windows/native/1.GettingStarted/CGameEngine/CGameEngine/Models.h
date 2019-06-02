@@ -16,4 +16,11 @@ struct RawModel
 	GLuint vertexCount;
 };
 
+struct TexturedModel
+{
+	struct RawModel rawModel;
+	GLuint textureID;
+	GLuint textureIDFace;
+};
+
 #endif // !H_MODELS

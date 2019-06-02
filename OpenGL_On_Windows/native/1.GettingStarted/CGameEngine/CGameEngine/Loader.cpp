@@ -1,6 +1,16 @@
 // headers
 #include"Loader.h"
 #include"Models.h"
+// for image loading
+// the preprocessor modifies the header file such that it only contains 
+// the relevant definition source code, effectively turning the header file into a .cpp file
+#define STB_IMAGE_IMPLEMENTATION
+#include"stb_image.h"
+
+// function prototype declarations
+void storeDataInBuffer(int attributeNumber, int coordinateSize, int dataSize, const float data[]); // Creates VBO and stores data in it
+void storeInterleavedDataInBuffer(int numElements, const float data[], bool hasColorData, bool hasTexcoordData);
+
 
 // Creates an empty vertex array object
 GLuint createEmptyVAO()
@@ -53,19 +63,12 @@ void storeInterleavedDataInBuffer(int numElements, const float data[], bool hasC
 	GLuint stride = 3;
 	GLuint offset = 0;
 
-	//calculate stride and offset
-	if (hasColorData)
-	{
+	if(hasColorData)
 		stride += 3;
-		offset += 3;
-	}
-
 	if (hasTexcoordData)
 	{
 		stride += 2;
-		offset += 2;
 	}
-
 	glGenBuffers(1, &vboID); // create VBO
 
 	//OpenGL has many types of buffer objects and the buffer type of a vertex buffer object is GL_ARRAY_BUFFER
@@ -97,6 +100,8 @@ void storeInterleavedDataInBuffer(int numElements, const float data[], bool hasC
 	// if color data is present
 	if(hasColorData)
 	{
+		offset += 3;
+
 		// Color attribute
 		glVertexAttribPointer(
 			1, // which attribute you want to bind
@@ -114,6 +119,8 @@ void storeInterleavedDataInBuffer(int numElements, const float data[], bool hasC
 	// if texcoord data is present
 	if (hasTexcoordData)
 	{
+		offset += 3;
+
 		// Color attribute
 		glVertexAttribPointer(
 			2, // which attribute you want to bind
@@ -221,4 +228,104 @@ void loadPositionDataWithIndicesToVAO(int numElements, const float data[], int i
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	rawModel->vertexCount = numElements / dimentsions;
+}
+
+// // loads interleaved data with indices to VAO
+void loadInterleavedDataWithIndicesToVAO(int numElements, const float vertices[], boolean hasColorData, boolean hasTextureCoords, int indicesSize, const unsigned int indices[], struct RawModel* rawModel)
+{
+	// create empty VAO
+	rawModel->vaoID = createEmptyVAO();
+
+	// bind EBO
+	/*
+	A VAO stores the glBindBuffer calls when the target is GL_ELEMENT_ARRAY_BUFFER.
+	This also means it stores its unbind calls so make sure you don't unbind the element array buffer
+	before unbinding your VAO, otherwise it doesn't have an EBO configured.
+	*/
+	bindIndicesToVAO(indicesSize, indices);
+
+	// store data in VBO
+	storeInterleavedDataInBuffer(numElements, vertices, hasColorData, hasTextureCoords);
+
+	// unbind VAO
+	unbindVAO();
+
+	// unbind EBO
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	rawModel->vertexCount = indicesSize;
+}
+
+// loads the texture to the texture buffer and returns it's id
+GLuint loadTexture(const std::string fileName)
+{
+	// local variables
+	GLuint textureID;
+	int width, height, nrChannels;
+
+	// code
+	// Create the texture buffer
+	glGenTextures(1, &textureID);
+
+	// bind the buffer
+	glBindTexture(GL_TEXTURE_2D, textureID);
+
+	// set the texture wrapping/filtering options (on the currently bound texture object)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	/*
+	OpenGL expects the 0.0 coordinate on the y-axis to be on the bottom side of the image, 
+	but images usually have 0.0 at the top of the y-axis. Luckily for us, stb_image.h 
+	can flip the y-axis during image loading by adding the following statment before loading 
+	any image.
+	*/
+	stbi_set_flip_vertically_on_load(true);
+	// first load the image data to the memory
+	unsigned char* data = stbi_load(
+		fileName.c_str(), // file to be loaded as a texture
+		&width, // width of the image
+		&height, // height of the image
+		&nrChannels, // number of channels of the image
+		0
+	);
+
+	GLenum format = GL_RGB;
+	if (nrChannels == 3) // jpg
+	{
+		format = GL_RGB;
+	}
+	else if (nrChannels == 4) // png
+	{
+		format = GL_RGBA;
+	}
+
+	if(data)
+	{
+	// pass data to the buffer
+	glTexImage2D(
+		GL_TEXTURE_2D, // texture target
+		0,  // mipmap level
+		format, // internal texture format
+		width, // width of the texture
+		height, // height
+		0, // border
+		format, // data format
+		GL_UNSIGNED_BYTE, // type of data
+		data // actual data
+	);
+
+	// generate texture mipmaps
+	glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		printf("Error while loading the image.\n");
+	}
+	// free image data now, as we have already passed it to buffer
+	stbi_image_free(data);
+
+	return textureID;
 }

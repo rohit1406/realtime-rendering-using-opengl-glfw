@@ -18,7 +18,8 @@ extern vector<GLuint> giShaderProgramObjectList;
 
 // global variables
 GLuint giEntityShaderProgram;
-struct RawModel gTriangleModel;
+struct TexturedModel gBricksModelTexture;
+
 float offset = -1.5;
 // initialize rendering
 void init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -129,30 +130,39 @@ void prepareOpenGLForRendering()
 
 	// Load uniforms
 	getAllUniformLocations(); // get the uniform locations
+	startProgram(giEntityShaderProgram);
+	loadBricksTextureSampler(0);
+	loadFaceTextureSampler(1);
+	stopProgram();
 
 	// data
-	const float vertices[] = {
-		// positions         // colors
-		
-		-0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom left
-		
-		  0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom right
-		   0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
-		
+	float vertices[] = {
+		// positions          // colors           // texture coords
+		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
 	};
 
-	const unsigned int indices[] = {  // note that we start from 0!
-	0, 1, 3,   // first triangle
-	1, 2, 3    // second triangle
+	unsigned int indices[] = {  // note that we start from 0!
+	 0, 1, 3, // first triangle
+		1, 2, 3  // second triangle
 	};
+
 
 	int numElements = sizeof(vertices)/sizeof(vertices[0]);
 	int dimentions = 3;
 	int numIndices = sizeof(indices) / sizeof(indices[0]);
 	// load data to VAO
 	//loadPositionDataToVAO(numElements, vertices, dimentions, &gTriangleModel);
-	loadInterleavedDataToVAO(numElements, vertices, true, false, &gTriangleModel);
+	//loadInterleavedDataToVAO(numElements, vertices, true, true, &gBricksModelTexture.rawModel);
+	loadInterleavedDataWithIndicesToVAO(numElements, vertices, true, true, numIndices, indices, &gBricksModelTexture.rawModel);
+	// textured model
+	const string bricksImageFile = IMAGES_RESOURCE_FILE_LOC + string("container.jpg");
+	const string faceImageFile = IMAGES_RESOURCE_FILE_LOC + string("awesomeface.png");
 	
+	gBricksModelTexture.textureID = loadTexture(bricksImageFile);
+	gBricksModelTexture.textureIDFace = loadTexture(faceImageFile);
 	//loadPositionDataWithIndicesToVAO(numElements, vertices, numIndices, indices, dimentions, &gTriangleModel);
 }
 
@@ -205,14 +215,19 @@ void display(void)
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	startProgram(giEntityShaderProgram);
+
+	// bind textures
+	bindTextureUnits(gBricksModelTexture);
+
 	// bind VAO
-	glBindVertexArray(gTriangleModel.vaoID);
+	glBindVertexArray(gBricksModelTexture.rawModel.vaoID);
 
 	//load uniforms
 	float gVal = (sin(timeSinceEpochMillisec() / 1000) / 2.0) + 0.5f; // vary the color in the range of 0.0 and 1.0
 	loadPositionOffset(offset);
-	glDrawArrays(GL_TRIANGLES, 0, gTriangleModel.vertexCount);
-	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); // for indexed drawing
+
+	//glDrawArrays(GL_TRIANGLES, 0, gBricksModelTexture.rawModel.vertexCount);
+	glDrawElements(GL_TRIANGLES, gBricksModelTexture.rawModel.vertexCount, GL_UNSIGNED_INT, 0); // for indexed drawing
 	
 	//unbind VAO
 	glBindVertexArray(0);

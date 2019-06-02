@@ -12,6 +12,7 @@
 
 #include"ShaderUtils.h"
 #include"GameUtils.h"
+#include"Models.h"
 
 GLuint buildVertexShader(const char* vertexShaderFileName); // builds vertex shader
 GLuint buildFragmentShader(const char* fragmentShaderFileName); // builds fragment shader
@@ -24,7 +25,12 @@ void stopProgram(); // stops the shader program
 extern GLuint gShaderProgram;
 extern GLuint gLocColor;
 extern GLuint gLocPositionOffset;
+extern GLuint gLocBricksSampler;
+extern GLuint gLocFaceSampler;
 
 void loadVertexColor(vector<GLfloat> color);
 void loadPositionOffset(float offset);
+void bindTextureUnits(struct TexturedModel modelTexture);
+void loadBricksTextureSampler(GLuint samplerID);
+void loadFaceTextureSampler(GLuint samplerID);
 #endif // !H_SHADERPROGRAM

@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClInclude Include="DisplayManager.h" />
     <ClInclude Include="GameUtils.h" />
+    <ClInclude Include="include\stb_image.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="Models.h" />
     <ClInclude Include="OpenGLRenderer.h" />
@@ -153,10 +154,13 @@
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </DeploymentContent>
     </None>
-    <None Include="shaders\fragmentShader.fs" />
-    <None Include="shaders\vertexShader.vs" />
+    <None Include="res\shaders\fragmentShader.fs" />
+    <None Include="res\shaders\vertexShader.vs" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\images\awesomeface.png" />
+    <Image Include="res\images\container.jpg" />
+    <Image Include="res\images\wall.jpg" />
     <Image Include="res\MyIcon.ico" />
     <Image Include="res\MyIconSm.ico" />
   </ItemGroup>
