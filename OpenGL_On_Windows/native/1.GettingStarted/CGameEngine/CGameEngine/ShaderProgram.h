@@ -23,6 +23,8 @@ void stopProgram(); // stops the shader program
 // uniforms
 extern GLuint gShaderProgram;
 extern GLuint gLocColor;
+extern GLuint gLocPositionOffset;
 
 void loadVertexColor(vector<GLfloat> color);
+void loadPositionOffset(float offset);
 #endif // !H_SHADERPROGRAM

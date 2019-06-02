@@ -11,5 +11,6 @@
 #include <iostream>
 
 uint64_t timeSinceEpochMillisec();
-const char* readShader(const char* fileName); // read the shader file
+extern std::string SHADER_RESOURCE_FILE_LOC;
+std::string readShader(const char* fileName); // read the shader file
 #endif // !H_GAME_UTILS

@@ -6,6 +6,7 @@ vector<GLuint> giShaderList;
 vector<GLuint> giShaderProgramObjectList;
 GLuint gShaderProgram;
 GLuint gLocColor;
+GLuint gLocPositionOffset;
 
 // builds the vertex shader
 GLuint buildVertexShader(const char *vertexShaderFileName)
@@ -14,12 +15,12 @@ GLuint buildVertexShader(const char *vertexShaderFileName)
 	GLuint vertexShader;
 
 	// shader source code
-	const GLchar* vertexShaderSourceCode = readShader(vertexShaderFileName);
-
+	std::string vertexShaderSourceCode = readShader(vertexShaderFileName);
+	const char* vsCode = vertexShaderSourceCode.c_str();
 	// code
 	vertexShader = glCreateShader(GL_VERTEX_SHADER); // creates vertex shader object
 	// attache source code to the above shader
-	glShaderSource(vertexShader, 1, &vertexShaderSourceCode, NULL);
+	glShaderSource(vertexShader, 1, &vsCode, NULL);
 	// compile the shader
 	glCompileShader(vertexShader);
 
@@ -45,12 +46,12 @@ GLuint buildFragmentShader(const char* fragmentShaderFileName)
 	GLuint fragmentShader;
 
 	// shader source code
-	const GLchar* fragmentShaderSourceCode = readShader(fragmentShaderFileName);
-
+	std::string fragmentShaderSourceCode = readShader(fragmentShaderFileName);
+	const char* fsCode = fragmentShaderSourceCode.c_str();
 	// code
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER); // creates fragment shader object
 	// attache source code to the above shader
-	glShaderSource(fragmentShader, 1, &fragmentShaderSourceCode, NULL);
+	glShaderSource(fragmentShader, 1, &fsCode, NULL);
 	// compile the shader
 	glCompileShader(fragmentShader);
 
@@ -123,10 +124,17 @@ void stopProgram()
 void getAllUniformLocations()
 {
 	gLocColor = glGetUniformLocation(gShaderProgram, "u_vertex_color");
+	gLocPositionOffset = glGetUniformLocation(gShaderProgram, "u_position_offset");
 }
 
 // loads vertex color
 void loadVertexColor(vector<GLfloat> color)
 {
 	setVector4v(gLocColor, color);
+}
+
+// set the position offset to the triangle
+void loadPositionOffset(float offset)
+{
+	setFloat(gLocPositionOffset, offset);
 }

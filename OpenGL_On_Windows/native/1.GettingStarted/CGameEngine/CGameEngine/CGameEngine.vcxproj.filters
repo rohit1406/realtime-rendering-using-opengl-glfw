@@ -13,8 +13,8 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="shaders">
-      <UniqueIdentifier>{26d97c43-33b8-4bfa-9e37-e9932924517c}</UniqueIdentifier>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{b3431a82-b9f1-4d4a-bd23-e28b87a5efe4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -80,10 +80,10 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="shaders\fragmentShader.fs">
-      <Filter>shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="shaders\vertexShader.vs">
-      <Filter>shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,9 @@
 // headers
 #include"GameUtils.h"
 
+// global variables
+std::string SHADER_RESOURCE_FILE_LOC = "C:\\Users\\RohitMuneshwar\\Documents\\IBM\\RTR\\projects\\learn_opengl\\OpenGL_On_Windows\\native\\1.GettingStarted\\CGameEngine\\CGameEngine\\shaders\\";
+
 /*
 get current system time: std::chrono::system_clock::now()
 get time since epoch: .time_since_epoch()
@@ -16,7 +19,7 @@ uint64_t timeSinceEpochMillisec()
 /*
 	Reads the shader file and returns the contents of it in a array of null-terminated sequence of characters
 */
-const char *readShader(const char* fileName)
+std::string readShader(const char* fileName)
 {
 	// local variables
 	std::string shaderCode;
@@ -43,5 +46,5 @@ const char *readShader(const char* fileName)
 		std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
 	}
 
-	return shaderCode.c_str();
+	return shaderCode;
 }

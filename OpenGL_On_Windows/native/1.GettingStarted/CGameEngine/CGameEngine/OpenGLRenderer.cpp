@@ -19,7 +19,7 @@ extern vector<GLuint> giShaderProgramObjectList;
 // global variables
 GLuint giEntityShaderProgram;
 struct RawModel gTriangleModel;
-
+float offset = -1.5;
 // initialize rendering
 void init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -122,9 +122,10 @@ void prepareOpenGLForRendering()
 		ReleaseDC(ghwnd, ghdc);
 		ghdc = NULL;
 	}
-
+	const string vertexFile = SHADER_RESOURCE_FILE_LOC + string("vertexShader.vs");
+	const string fragmentFile = SHADER_RESOURCE_FILE_LOC + string("fragmentShader.fs");
 	// create shader program object
-	giEntityShaderProgram = buildShaderProgramObject("vertexShader.vs", "shaders\fragmentShader.fs");
+	giEntityShaderProgram = buildShaderProgramObject(vertexFile.c_str(), fragmentFile.c_str());
 
 	// Load uniforms
 	getAllUniformLocations(); // get the uniform locations
@@ -192,6 +193,14 @@ void uninitializeOpenGL(void)
 
 void display(void)
 {
+	// local variables
+	
+	
+	offset = offset + 0.0001f;
+	if (offset >= 1.5)
+	{
+		offset = -1.5f;
+	}
 	//code
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -201,9 +210,7 @@ void display(void)
 
 	//load uniforms
 	float gVal = (sin(timeSinceEpochMillisec() / 1000) / 2.0) + 0.5f; // vary the color in the range of 0.0 and 1.0
-	vector<GLfloat> color{ 0.0f, gVal, 0.0f, 1.0f };
-	loadVertexColor(color);
-
+	loadPositionOffset(offset);
 	glDrawArrays(GL_TRIANGLES, 0, gTriangleModel.vertexCount);
 	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); // for indexed drawing
 	
