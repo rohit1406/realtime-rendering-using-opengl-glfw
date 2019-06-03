@@ -51,3 +51,12 @@ void setBoolean(GLuint uniformLocation, bool val)
 {
 	glUniform1i(uniformLocation, val);
 }
+
+void setMat4(GLuint uniformLocation, glm::mat4 matrix)
+{
+	glUniformMatrix4fv(uniformLocation,
+		1, // how many matrices you are sending 
+		GL_FALSE, // do you want to transpose the matrix
+		glm::value_ptr(matrix) //GLM stores their matrices not in the exact way that OpenGL likes to receive them so we first transform them with GLM's built-in function value_ptr
+	);
+}

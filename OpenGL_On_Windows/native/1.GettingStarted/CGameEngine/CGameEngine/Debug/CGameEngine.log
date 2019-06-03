@@ -1,6 +1,5 @@
-﻿  DisplayManager.cpp
-  OpenGLRenderer.cpp
-  ShaderProgram.cpp
-  Generating Code...
-C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\OpenGLRenderer.cpp(227,13): warning C4244:  'initializing': conversion from 'double' to 'float', possible loss of data
+﻿  OpenGLRenderer.cpp
+C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\OpenGLRenderer.cpp(231,12): warning C4244:  'initializing': conversion from 'uint64_t' to 'long', possible loss of data
+C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\OpenGLRenderer.cpp(232,14): warning C4244:  'initializing': conversion from 'long' to 'float', possible loss of data
+C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\OpenGLRenderer.cpp(240,13): warning C4244:  'initializing': conversion from 'double' to 'float', possible loss of data
   CGameEngine.vcxproj -> C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\Debug\CGameEngine.exe

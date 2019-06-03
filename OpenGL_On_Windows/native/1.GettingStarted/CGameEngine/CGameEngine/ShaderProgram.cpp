@@ -10,6 +10,7 @@ GLuint gLocPositionOffset;
 GLuint gLocBricksSampler;
 GLuint gLocFaceSampler;
 GLuint gLocMixParam;
+GLuint gLocTransformationMatrix;
 
 // builds the vertex shader
 GLuint buildVertexShader(const char *vertexShaderFileName)
@@ -131,6 +132,7 @@ void getAllUniformLocations()
 	gLocBricksSampler = glGetUniformLocation(gShaderProgram, "u_bricks_sampler");
 	gLocFaceSampler = glGetUniformLocation(gShaderProgram, "u_face_sampler");
 	gLocMixParam = glGetUniformLocation(gShaderProgram, "u_mix_texture_param");
+	gLocTransformationMatrix = glGetUniformLocation(gShaderProgram, "u_transformation_matrix");
 }
 
 // loads vertex color
@@ -167,4 +169,9 @@ void loadFaceTextureSampler(GLuint samplerID)
 void loadMixParam(GLfloat value)
 {
 	setFloat(gLocMixParam, value);
+}
+
+void loadTransformationMatrix(glm::mat4 transformationMatrix)
+{
+	setMat4(gLocTransformationMatrix, transformationMatrix);
 }

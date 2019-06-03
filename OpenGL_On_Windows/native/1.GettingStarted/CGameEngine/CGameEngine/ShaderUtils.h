@@ -9,6 +9,8 @@
 #include<GL/glew.h>
 #include<gl/GL.h> // for OpenGL
 
+#include"MathUtils.h"
+
 using namespace std;
 
 // uniform utilities
@@ -21,4 +23,5 @@ void setVector2v(GLuint uniformLocation, vector<GLfloat> vec);
 void setInt(GLuint uniformLocation, int val);
 void setFloat(GLuint uniformLocation, GLfloat val);
 void setBoolean(GLuint uniformLocation, bool val);
+void setMat4(GLuint uniformLocation, glm::mat4 matrix);
 #endif // !H_SHADER_UTILS

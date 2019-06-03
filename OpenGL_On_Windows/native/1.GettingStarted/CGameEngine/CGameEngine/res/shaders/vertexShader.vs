@@ -7,10 +7,10 @@ out vec3 out_Color;
 out vec2 out_texcoord;
 
 uniform float u_position_offset;
-
+uniform mat4 u_transformation_matrix;
 void main()
 {
-    gl_Position = vec4(aPosition.x + u_position_offset, aPosition.y, aPosition.z, 1.0);
+    gl_Position = u_transformation_matrix * vec4(aPosition.x, aPosition.y, aPosition.z, 1.0);
     out_Color = aColor;
 	out_texcoord = aTexCoords;
 }

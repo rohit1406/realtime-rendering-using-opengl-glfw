@@ -7,6 +7,7 @@
 #include"OpenGLStateChanger.h"
 #include"GameUtils.h"
 #include"Loader.h"
+#include"MathUtils.h"
 
 using namespace std;
 
@@ -21,6 +22,7 @@ GLuint giEntityShaderProgram;
 struct TexturedModel gBricksModelTexture;
 
 float offset = -1.5;
+float rotationAngle = 0.0f;
 extern float gMixParam;
 // initialize rendering
 void init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -207,10 +209,16 @@ void display(void)
 	// local variables
 	
 	
-	offset = offset + 0.0001f;
+	offset = offset + 0.001f;
 	if (offset >= 1.5)
 	{
 		offset = -1.5f;
+	}
+
+	rotationAngle = rotationAngle + 0.1f;
+	if (rotationAngle > 360)
+	{
+		rotationAngle = 0.0f;
 	}
 	//code
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -220,16 +228,42 @@ void display(void)
 	// bind textures
 	bindTextureUnits(gBricksModelTexture);
 
-	// bind VAO
-	glBindVertexArray(gBricksModelTexture.rawModel.vaoID);
+	long time = timeSinceEpochMillisec();
+	float angle = (time) % 360;
+	//create transformation matrix
+	glm::mat4 transform = glm::mat4(1.0);
+	transform = glm::translate(transform, glm::vec3(0.5f, -0.5f, 0.0f));
+	transform = glm::rotate(transform, glm::radians(rotationAngle), glm::vec3(0.0, 0.0, 1.0));
+	transform = glm::scale(transform, glm::vec3(0.5, 0.5, 0.5));
 
 	//load uniforms
 	float gVal = (sin(timeSinceEpochMillisec() / 1000) / 2.0) + 0.5f; // vary the color in the range of 0.0 and 1.0
 	loadPositionOffset(offset);
 	loadMixParam(gMixParam);
+	loadTransformationMatrix(transform);
+
+	// bind VAO
+	glBindVertexArray(gBricksModelTexture.rawModel.vaoID);
+
 	//glDrawArrays(GL_TRIANGLES, 0, gBricksModelTexture.rawModel.vertexCount);
 	glDrawElements(GL_TRIANGLES, gBricksModelTexture.rawModel.vertexCount, GL_UNSIGNED_INT, 0); // for indexed drawing
 	
+	//unbind VAO
+	glBindVertexArray(0);
+
+
+	// another container
+	transform = glm::mat4(1.0);
+	transform = glm::translate(transform, glm::vec3(-0.5f, 0.5f, 0.0f));
+	//transform = glm::rotate(transform, glm::radians(rotationAngle), glm::vec3(0.0, 0.0, 1.0));
+	transform = glm::scale(transform, glm::vec3(glm::sin(offset)));
+	loadTransformationMatrix(transform);
+	// bind VAO
+	glBindVertexArray(gBricksModelTexture.rawModel.vaoID);
+
+	//glDrawArrays(GL_TRIANGLES, 0, gBricksModelTexture.rawModel.vertexCount);
+	glDrawElements(GL_TRIANGLES, gBricksModelTexture.rawModel.vertexCount, GL_UNSIGNED_INT, 0); // for indexed drawing
+
 	//unbind VAO
 	glBindVertexArray(0);
 
