@@ -1,4 +1,5 @@
 #include"DisplayManager.h"
+#include"MathUtils.h"
 
 //global function declarations
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -24,6 +25,7 @@ HDC ghdc = NULL;
 HGLRC ghrc = NULL;
 
 float gMixParam = 0.0f;
+glm::mat4 gProjectionMatrix = glm::mat4(1.0);
 
 //window procedure
 LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
@@ -349,6 +351,7 @@ void resize(int width, int height)
 	{
 		height = 1;
 	}
+	gProjectionMatrix = createPerspectiveProjectionMatrix(width, height);
 	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 }
 

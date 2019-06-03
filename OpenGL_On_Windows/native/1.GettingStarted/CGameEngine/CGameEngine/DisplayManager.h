@@ -11,6 +11,11 @@
 #include<GL/glew.h>
 #include<gl/GL.h> // for OpenGL
 
+// headers
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 //macros
 #define WIN_WIDTH 800
 #define WIN_HEIGHT 600
@@ -24,6 +29,7 @@ extern LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 extern void createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow);
 extern void uninitializeWindow(void); // free up the resources
 
+extern glm::mat4 gProjectionMatrix;
 extern float gMixParam;
 
 #endif // !H_DISPLAYMANAGER

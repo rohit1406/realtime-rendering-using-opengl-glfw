@@ -29,7 +29,9 @@ extern GLuint gLocPositionOffset;
 extern GLuint gLocBricksSampler;
 extern GLuint gLocFaceSampler;
 extern GLuint gLocMixParam;
-extern GLuint gLocTransformationMatrix;
+extern GLuint gLocModelMatrix;
+extern GLuint gLocViewMatrix;
+extern GLuint gLocProjectionMatrix;
 
 void loadVertexColor(vector<GLfloat> color);
 void loadPositionOffset(float offset);
@@ -37,5 +39,7 @@ void bindTextureUnits(struct TexturedModel modelTexture);
 void loadBricksTextureSampler(GLuint samplerID);
 void loadFaceTextureSampler(GLuint samplerID);
 void loadMixParam(GLfloat value);
-void loadTransformationMatrix(glm::mat4 transformationMatrix);
+void loadModelMatrix(glm::mat4 transformationMatrix);
+void loadViewMatrix(glm::mat4 transformationMatrix);
+void loadProjectionMatrix(glm::mat4 transformationMatrix);
 #endif // !H_SHADERPROGRAM

@@ -10,7 +10,9 @@ GLuint gLocPositionOffset;
 GLuint gLocBricksSampler;
 GLuint gLocFaceSampler;
 GLuint gLocMixParam;
-GLuint gLocTransformationMatrix;
+GLuint gLocModelMatrix;
+GLuint gLocViewMatrix;
+GLuint gLocProjectionMatrix;
 
 // builds the vertex shader
 GLuint buildVertexShader(const char *vertexShaderFileName)
@@ -132,7 +134,9 @@ void getAllUniformLocations()
 	gLocBricksSampler = glGetUniformLocation(gShaderProgram, "u_bricks_sampler");
 	gLocFaceSampler = glGetUniformLocation(gShaderProgram, "u_face_sampler");
 	gLocMixParam = glGetUniformLocation(gShaderProgram, "u_mix_texture_param");
-	gLocTransformationMatrix = glGetUniformLocation(gShaderProgram, "u_transformation_matrix");
+	gLocModelMatrix = glGetUniformLocation(gShaderProgram, "u_model_matrix");
+	gLocViewMatrix = glGetUniformLocation(gShaderProgram, "u_view_matrix");
+	gLocProjectionMatrix = glGetUniformLocation(gShaderProgram, "u_projection_matrix");
 }
 
 // loads vertex color
@@ -171,7 +175,17 @@ void loadMixParam(GLfloat value)
 	setFloat(gLocMixParam, value);
 }
 
-void loadTransformationMatrix(glm::mat4 transformationMatrix)
+void loadModelMatrix(glm::mat4 transformationMatrix)
 {
-	setMat4(gLocTransformationMatrix, transformationMatrix);
+	setMat4(gLocModelMatrix, transformationMatrix);
+}
+
+void loadViewMatrix(glm::mat4 transformationMatrix)
+{
+	setMat4(gLocViewMatrix, transformationMatrix);
+}
+
+void loadProjectionMatrix(glm::mat4 transformationMatrix)
+{
+	setMat4(gLocProjectionMatrix, transformationMatrix);
 }

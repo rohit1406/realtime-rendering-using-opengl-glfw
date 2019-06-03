@@ -7,10 +7,12 @@ out vec3 out_Color;
 out vec2 out_texcoord;
 
 uniform float u_position_offset;
-uniform mat4 u_transformation_matrix;
+uniform mat4 u_model_matrix;
+uniform mat4 u_view_matrix;
+uniform mat4 u_projection_matrix;
 void main()
-{
-    gl_Position = u_transformation_matrix * vec4(aPosition.x, aPosition.y, aPosition.z, 1.0);
+{//u_projection_matrix * u_view_matrix *
+    gl_Position =   u_projection_matrix * u_view_matrix * u_model_matrix * vec4(aPosition.x, aPosition.y, aPosition.z, 1.0);
     out_Color = aColor;
 	out_texcoord = aTexCoords;
 }
