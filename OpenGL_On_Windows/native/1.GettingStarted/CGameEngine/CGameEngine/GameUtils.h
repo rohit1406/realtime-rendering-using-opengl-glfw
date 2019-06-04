@@ -2,6 +2,7 @@
 #define H_GAME_UTILS
 
 // headers
+#include<Windows.h>
 #include <chrono>
 #include <cstdint>
 #include <iostream>
@@ -20,9 +21,12 @@
 //#define STB_IMAGE_IMPLEMENTATION
 //#include"stb_image.h"
 
-uint64_t timeSinceEpochMillisec();
 extern std::string SHADER_RESOURCE_FILE_LOC;
 extern std::string IMAGES_RESOURCE_FILE_LOC;
 std::string readShader(const char* fileName); // read the shader file
 void draw(GLuint vertexCount, bool isIndexed);
+
+extern float openGLInitializationTime; // time at which OpenGL is initialized
+uint64_t timeSinceEpochMillisec();
+long getTimeInSecondsSinceOpenGLIsInitialized();
 #endif // !H_GAME_UTILS

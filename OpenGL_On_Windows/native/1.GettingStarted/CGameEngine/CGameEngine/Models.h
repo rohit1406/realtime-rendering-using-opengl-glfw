@@ -1,6 +1,7 @@
 #ifndef H_MODELS
 #define H_MODELS
 
+// headers
 #include<iostream>
 #include<stdio.h>
 #include<Windows.h>
@@ -22,5 +23,4 @@ struct TexturedModel
 	GLuint textureID;
 	GLuint textureIDFace;
 };
-
 #endif // !H_MODELS

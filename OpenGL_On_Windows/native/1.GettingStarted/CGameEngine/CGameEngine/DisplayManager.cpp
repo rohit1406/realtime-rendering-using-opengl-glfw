@@ -1,5 +1,6 @@
 #include"DisplayManager.h"
 #include"MathUtils.h"
+#include"GameUtils.h"
 
 //global function declarations
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -26,6 +27,10 @@ HGLRC ghrc = NULL;
 
 float gMixParam = 0.0f;
 glm::mat4 gProjectionMatrix = glm::mat4(1.0);
+struct Camera camera;
+glm::vec3 gCameraPosition(camera.position);
+
+float deltaTime = 0.0f;	// Time between current frame and last frame
 
 //window procedure
 LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
@@ -36,7 +41,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	void uninitializeWindow(void);
 
 	//local variables
-
+	float cameraSpeed = 0.05f;//2.5f * deltaTime;
+	//fprintf(gLogfile,"speed-%f - dt-%f\n", cameraSpeed, deltaTime);
 	//code
 	switch (iMsg)
 	{
@@ -91,7 +97,18 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 			break;
 		case 0x57: //W
-
+			gMixParam += 0.1f;
+			if (gMixParam > 1.0f)
+			{
+				gMixParam = 1.0f;
+			}
+			break;
+		case 0x53: //S
+			gMixParam -= 0.1f;
+			if (gMixParam < 0.0f)
+			{
+				gMixParam = 0.0f;
+			}
 			break;
 			//full screen
 		case 0x46: //f
@@ -119,19 +136,17 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case VK_UP:
-			gMixParam += 0.1f;
-			if (gMixParam > 1.0f)
-			{
-				gMixParam = 1.0f;
-			}
+			gCameraPosition += cameraSpeed * camera.cameraFront;
 			break;
 
 		case VK_DOWN:
-			gMixParam -= 0.1f;
-			if (gMixParam < 0.0f)
-			{
-				gMixParam = 0.0f;
-			}
+			gCameraPosition -= cameraSpeed * camera.cameraFront;
+			break;
+		case VK_LEFT:
+			gCameraPosition -= glm::normalize(glm::cross(camera.cameraFront, camera.up)) * cameraSpeed;
+			break;
+		case VK_RIGHT:
+			gCameraPosition += glm::normalize(glm::cross(camera.cameraFront, camera.up)) * cameraSpeed;
 			break;
 		default:
 
@@ -367,4 +382,19 @@ void uninitializeWindow(void)
 		ShowCursor(TRUE);
 
 	}
+}
+
+void initializeCamera()
+{
+	camera.position = glm::vec3(0.0, 0.0, 3.0), // position
+		camera.cameraFront = glm::vec3(0.0, 0.0, -1.0); // in front of camera
+		camera.up = glm::vec3(0.0, 1.0, 0.0); // up axis
+
+	gCameraPosition = camera.position;
+	logStaticData("Camera initialized");
+}
+
+void updateCameraPosition(glm::vec3 position)
+{
+	camera.position = position;
 }

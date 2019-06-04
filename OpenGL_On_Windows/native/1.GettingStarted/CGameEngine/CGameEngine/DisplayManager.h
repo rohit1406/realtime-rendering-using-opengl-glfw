@@ -6,6 +6,7 @@
 #include<stdio.h>
 #include<vector>
 #include<Windows.h>
+#include"Logger.h"
 
 #define GLEW_STATIC
 #include<GL/glew.h>
@@ -32,4 +33,27 @@ extern void uninitializeWindow(void); // free up the resources
 extern glm::mat4 gProjectionMatrix;
 extern float gMixParam;
 
+// camera
+struct Camera
+{
+	glm::vec3 position;
+	glm::vec3 target; // looking at
+	glm::vec3 up;
+	glm::vec3 cameraFront;
+};
+
+extern struct Camera camera;
+extern glm::vec3 gCameraPosition;
+void initializeCamera();
+void updateCameraPosition(glm::vec3 position);
+
+/*
+Graphics applications and games usually keep track of a deltatime variable that stores the time
+it takes to render the last frame. We then multiply all velocities with this deltaTime value.
+The result is that when we have a large deltaTime in a frame, meaning that the last frame took longer
+than average, the velocity for that frame will also be a bit higher to balance it all out.
+When using this approach it does not matter if you have a very fast or slow pc, the velocity of the camera
+will be balanced out accordingly so each user will have the same experience.
+*/
+extern float deltaTime;	// Time between current frame and last frame
 #endif // !H_DISPLAYMANAGER

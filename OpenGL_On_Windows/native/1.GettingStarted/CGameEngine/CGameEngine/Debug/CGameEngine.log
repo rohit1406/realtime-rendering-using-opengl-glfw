@@ -1,5 +1,19 @@
-﻿  OpenGLRenderer.cpp
-C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\OpenGLRenderer.cpp(311,12): warning C4244:  'initializing': conversion from 'uint64_t' to 'long', possible loss of data
-C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\OpenGLRenderer.cpp(312,14): warning C4244:  'initializing': conversion from 'long' to 'float', possible loss of data
-C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\OpenGLRenderer.cpp(314,13): warning C4244:  'initializing': conversion from 'double' to 'float', possible loss of data
-  CGameEngine.vcxproj -> C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\Debug\CGameEngine.exe
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppClean.targets(76,5): warning : Access to the path 'c:\users\rohitmuneshwar\documents\ibm\rtr\projects\learn_opengl\opengl_on_windows\native\1.gettingstarted\cgameengine\debug\cgameengine.exe' is denied.
+  DisplayManager.cpp
+  GameUtils.cpp
+  Loader.cpp
+  Logger.cpp
+  Main.cpp
+  MathUtils.cpp
+  Models.cpp
+  OpenGLRenderer.cpp
+C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\GameUtils.cpp(69,63): warning C4244:  'return': conversion from 'float' to 'long', possible loss of data
+C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\OpenGLRenderer.cpp(62,51): warning C4244:  '=': conversion from 'uint64_t' to 'float', possible loss of data
+C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\OpenGLRenderer.cpp(326,21): warning C4244:  'initializing': conversion from 'long' to 'float', possible loss of data
+C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\OpenGLRenderer.cpp(340,12): warning C4244:  'initializing': conversion from 'uint64_t' to 'long', possible loss of data
+  OpenGLStateChanger.cpp
+  ShaderProgram.cpp
+  ShaderUtils.cpp
+  Generating Code...
+C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\OpenGLRenderer.cpp(341,14): warning C4244:  'initializing': conversion from 'long' to 'float', possible loss of data
+LINK : fatal error LNK1104: cannot open file 'C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\Debug\CGameEngine.exe'

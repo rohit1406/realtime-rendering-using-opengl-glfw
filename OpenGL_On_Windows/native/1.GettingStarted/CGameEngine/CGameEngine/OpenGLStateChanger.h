@@ -5,6 +5,8 @@
 #define GLEW_STATIC
 #include<GL/glew.h>
 #include<gl/GL.h> // for OpenGL
+#include"GameUtils.h"
+#include"Logger.h"
 
 void enableWireframeMode(); // enables wireframe mode
 void disableWireframeMode(); // disables wireframe mode

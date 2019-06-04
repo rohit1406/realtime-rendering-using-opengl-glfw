@@ -3,6 +3,7 @@
 
 //header files
 #include <Windows.h>
+#include"Logger.h"
 
 // global variable declarations
 extern HDC ghdc;

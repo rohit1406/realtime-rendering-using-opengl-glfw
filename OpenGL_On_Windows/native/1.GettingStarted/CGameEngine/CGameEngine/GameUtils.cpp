@@ -4,6 +4,8 @@
 // global variables
 std::string SHADER_RESOURCE_FILE_LOC = "C:\\Users\\RohitMuneshwar\\Documents\\IBM\\RTR\\projects\\learn_opengl\\OpenGL_On_Windows\\native\\1.GettingStarted\\CGameEngine\\CGameEngine\\res\\shaders\\";
 std::string IMAGES_RESOURCE_FILE_LOC = "C:\\Users\\RohitMuneshwar\\Documents\\IBM\\RTR\\projects\\learn_opengl\\OpenGL_On_Windows\\native\\1.GettingStarted\\CGameEngine\\CGameEngine\\res\\images\\";
+float openGLInitializationTime = 0.0f; // time at which OpenGL is initialized
+FILE* gLogfile = NULL; // log file
 /*
 get current system time: std::chrono::system_clock::now()
 get time since epoch: .time_since_epoch()
@@ -60,4 +62,9 @@ void draw(GLuint vertexCount, bool isIndexed)
 	{
 		glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 	}
+}
+
+long getTimeInSecondsSinceOpenGLIsInitialized()
+{
+	return (timeSinceEpochMillisec() - openGLInitializationTime) / 1000;
 }

@@ -14,6 +14,7 @@
 #include"GameUtils.h"
 #include"Models.h"
 #include"MathUtils.h"
+#include"Logger.h"
 
 GLuint buildVertexShader(const char* vertexShaderFileName); // builds vertex shader
 GLuint buildFragmentShader(const char* fragmentShaderFileName); // builds fragment shader

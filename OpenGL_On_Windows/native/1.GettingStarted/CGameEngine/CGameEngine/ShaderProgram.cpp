@@ -39,7 +39,8 @@ GLuint buildVertexShader(const char *vertexShaderFileName)
 	{
 		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog); // fetch the logs
 		//print the logs
-		cout << "ERROR::COMPILATION_FAILURE::Vertex Shader Logs: " << infoLog << endl;
+		logStaticData("ERROR::COMPILATION_FAILURE::Vertex Shader Logs: ");
+		logStaticData(infoLog);
 	}
 	giShaderList.push_back(vertexShader); // for cleanUp
 	return vertexShader;
@@ -70,7 +71,8 @@ GLuint buildFragmentShader(const char* fragmentShaderFileName)
 	{
 		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog); // fetch the logs
 		//print the logs
-		cout << "ERROR::COMPILATION_FAILURE::Fragment Shader Logs: " << infoLog << endl;
+		logStaticData("ERROR::COMPILATION_FAILURE::Fragment Shader Logs: ");
+		logStaticData(infoLog);
 	}
 	giShaderList.push_back(fragmentShader); // for cleanUp
 	return fragmentShader;
@@ -86,7 +88,6 @@ GLuint buildShaderProgramObject(const char* vertexShaderFileName, const char* fr
 	// get the vertex shader and fragment shader objects
 	GLuint vertexShader = buildVertexShader(vertexShaderFileName);
 	GLuint fragmentShader = buildFragmentShader(fragmentShaderFileName);
-	cout << "File Names" << vertexShaderFileName << endl;
 	// create shader program
 	shaderProgramObject = glCreateProgram();
 
@@ -106,7 +107,8 @@ GLuint buildShaderProgramObject(const char* vertexShaderFileName, const char* fr
 	{
 		glGetProgramInfoLog(shaderProgramObject, 512, NULL, infoLog); // fetch the logs
 		//print the logs
-		cout << "ERROR::LINKAGE_FAILURE::Linkage error Logs: " << infoLog << endl;
+		logStaticData("ERROR::LINKAGE_FAILURE::Linkage Shader Logs: ");
+		logStaticData(infoLog);
 	}
 	giShaderProgramObjectList.push_back(shaderProgramObject);
 	gShaderProgram = shaderProgramObject;

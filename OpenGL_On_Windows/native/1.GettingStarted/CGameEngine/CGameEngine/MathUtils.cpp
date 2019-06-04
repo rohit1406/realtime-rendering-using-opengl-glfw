@@ -1,5 +1,8 @@
 // headers
 #include"MathUtils.h"
+#include"DisplayManager.h"
+
+extern struct Camera camera;
 
 glm::mat4 creatTranslationMatrix(glm::mat4 translationMatrix, glm::vec3 translateBy)
 {
@@ -31,9 +34,13 @@ glm::mat4 createPerspectiveProjectionMatrix(int width, int height)
 	return proj;
 }
 
-glm::mat4 createViewMatrix()
+glm::mat4 createViewMatrix(struct Camera camera)
 {
 	glm::mat4 view = glm::mat4(1.0);
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+	view = glm::lookAt(
+		camera.position, // position
+		camera.position + camera.cameraFront, // looking at
+		camera.up // up axis
+	);
 	return view;
 }
