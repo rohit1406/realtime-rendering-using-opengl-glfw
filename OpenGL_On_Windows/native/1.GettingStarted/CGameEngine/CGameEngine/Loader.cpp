@@ -18,6 +18,9 @@ GLuint createEmptyVAO()
 	GLuint vaoID;
 	glGenVertexArrays(1, &vaoID); // create VAO
 	glBindVertexArray(vaoID); // bind above vertex array object
+
+	// add vaoID to list of VAOs
+	gVAOList.push_back(vaoID);
 	return vaoID;
 }
 
@@ -26,7 +29,7 @@ void storeDataInBuffer(int attributeNumber, int coordinateSize, int numElements,
 {
 	GLuint vboID;
 	glGenBuffers(1, &vboID); // create VBO
-
+	gVBOList.push_back(vboID); // add VBO to the list of VBOs
 	//OpenGL has many types of buffer objects and the buffer type of a vertex buffer object is GL_ARRAY_BUFFER
 	//OpenGL allows us to bind to several buffers at once as long as they have a different buffer type
 	glBindBuffer(GL_ARRAY_BUFFER, vboID); // bind VBO
@@ -70,7 +73,7 @@ void storeInterleavedDataInBuffer(int numElements, const float data[], bool hasC
 		stride += 2;
 	}
 	glGenBuffers(1, &vboID); // create VBO
-
+	gVBOList.push_back(vboID); // add VBO to the list of VBOs
 	//OpenGL has many types of buffer objects and the buffer type of a vertex buffer object is GL_ARRAY_BUFFER
 	//OpenGL allows us to bind to several buffers at once as long as they have a different buffer type
 	glBindBuffer(GL_ARRAY_BUFFER, vboID); // bind VBO
@@ -168,7 +171,7 @@ void bindIndicesToVAO(int dataSize, const unsigned int indices[])
 {
 	GLuint eboID;
 	glGenBuffers(1, &eboID); // create EBO
-
+	gVBOList.push_back(eboID); // add EBO to the list of VBOs
 	//OpenGL has many types of buffer objects and the buffer type of a vertex buffer object is GL_ARRAY_BUFFER
 	//OpenGL allows us to bind to several buffers at once as long as they have a different buffer type
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboID); // bind VBO
@@ -266,7 +269,7 @@ GLuint loadTexture(const std::string fileName)
 	// code
 	// Create the texture buffer
 	glGenTextures(1, &textureID);
-
+	gTexturesList.push_back(textureID); // add texture to the list of textures
 	// bind the buffer
 	glBindTexture(GL_TEXTURE_2D, textureID);
 

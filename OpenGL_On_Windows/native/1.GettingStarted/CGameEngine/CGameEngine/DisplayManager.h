@@ -12,10 +12,13 @@
 #include<GL/glew.h>
 #include<gl/GL.h> // for OpenGL
 
-// headers
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#include"MathUtils.h"
+#include"GameUtils.h"
+#include"Camera.h"
 
 //macros
 #define WIN_WIDTH 800
@@ -33,20 +36,6 @@ extern void uninitializeWindow(void); // free up the resources
 extern glm::mat4 gProjectionMatrix;
 extern float gMixParam;
 
-// camera
-struct Camera
-{
-	glm::vec3 position;
-	glm::vec3 target; // looking at
-	glm::vec3 up;
-	glm::vec3 cameraFront;
-};
-
-extern struct Camera camera;
-extern glm::vec3 gCameraPosition;
-void initializeCamera();
-void updateCameraPosition(glm::vec3 position);
-
 /*
 Graphics applications and games usually keep track of a deltatime variable that stores the time
 it takes to render the last frame. We then multiply all velocities with this deltaTime value.
@@ -55,5 +44,5 @@ than average, the velocity for that frame will also be a bit higher to balance i
 When using this approach it does not matter if you have a very fast or slow pc, the velocity of the camera
 will be balanced out accordingly so each user will have the same experience.
 */
-extern float deltaTime;	// Time between current frame and last frame
+extern long deltaTime;	// Time between current frame and last frame
 #endif // !H_DISPLAYMANAGER

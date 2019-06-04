@@ -1,6 +1,4 @@
 #include"DisplayManager.h"
-#include"MathUtils.h"
-#include"GameUtils.h"
 
 //global function declarations
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -13,7 +11,7 @@ bool gbFullscreen = false;
 
 //bool gbDone = false; //for game loop
 TCHAR gpszExitMessage[255]; //to display while exiting the window
-TCHAR gpszWindowTitle[] = TEXT("OpenGL - Double Buffer Window"); //Window Title
+TCHAR gpszWindowTitle[] = TEXT("OpenGL - Render Engine"); //Window Title
 
 //for full screen of window
 //bool gbFullscreen = false;
@@ -27,10 +25,12 @@ HGLRC ghrc = NULL;
 
 float gMixParam = 0.0f;
 glm::mat4 gProjectionMatrix = glm::mat4(1.0);
-struct Camera camera;
-glm::vec3 gCameraPosition(camera.position);
 
-float deltaTime = 0.0f;	// Time between current frame and last frame
+extern struct Camera camera;
+
+extern glm::vec3 gCameraPosition;
+
+long deltaTime;	// Time between current frame and last frame
 
 //window procedure
 LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
@@ -41,8 +41,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	void uninitializeWindow(void);
 
 	//local variables
-	float cameraSpeed = 0.05f;//2.5f * deltaTime;
-	//fprintf(gLogfile,"speed-%f - dt-%f\n", cameraSpeed, deltaTime);
+	float dt = deltaTime/10.0f;
+	float cameraSpeed =(float) 0.2f * dt;
 	//code
 	switch (iMsg)
 	{
@@ -382,19 +382,4 @@ void uninitializeWindow(void)
 		ShowCursor(TRUE);
 
 	}
-}
-
-void initializeCamera()
-{
-	camera.position = glm::vec3(0.0, 0.0, 3.0), // position
-		camera.cameraFront = glm::vec3(0.0, 0.0, -1.0); // in front of camera
-		camera.up = glm::vec3(0.0, 1.0, 0.0); // up axis
-
-	gCameraPosition = camera.position;
-	logStaticData("Camera initialized");
-}
-
-void updateCameraPosition(glm::vec3 position)
-{
-	camera.position = position;
 }

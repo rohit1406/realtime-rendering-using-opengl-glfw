@@ -15,6 +15,7 @@
 #include<GL/glew.h>
 #include<gl/GL.h> // for OpenGL
 #include"Logger.h"
+#include"GameUtils.h"
 
 
 // function prototype declarations

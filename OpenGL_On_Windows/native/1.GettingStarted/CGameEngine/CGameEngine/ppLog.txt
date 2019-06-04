@@ -1,52 +1,12 @@
 
 Log file is opened successfully...
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
 RSM: Window created successfully.
 RSM: OpenGL context initialized successfully.
 RSM: Initializing GLEW
 RSM: GLEW initialized successfully.
+RSM: Camera initialized
 RSM: Shader program object created.
 RSM: Loaded uniform locations.
-RSM: Camera initialized
 RSM: Enabled depth testing
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
-speed-0.000000 - dt-0.000000
 
 Log file is closed successfully...

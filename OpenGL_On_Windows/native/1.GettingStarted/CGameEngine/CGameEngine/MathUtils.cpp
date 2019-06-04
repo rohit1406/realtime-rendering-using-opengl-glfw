@@ -44,3 +44,14 @@ glm::mat4 createViewMatrix(struct Camera camera)
 	);
 	return view;
 }
+
+// create translation matrix from translation vector
+glm::mat4 getTransformationMatrix(glm::mat4 transformationMatrix, struct Entity entity)
+{
+	transformationMatrix = glm::translate(transformationMatrix, entity.translate);
+	transformationMatrix = glm::rotate(transformationMatrix, glm::radians(entity.rotateX), glm::vec3(1.0f, 0.0f, 0.0f));
+	transformationMatrix = glm::rotate(transformationMatrix, glm::radians(entity.rotateY), glm::vec3(0.0f, 1.0f, 0.0f));
+	transformationMatrix = glm::rotate(transformationMatrix, glm::radians(entity.rotateZ), glm::vec3(0.0f, 0.0f, 1.0f));
+	transformationMatrix = glm::scale(transformationMatrix, glm::vec3(entity.scale, entity.scale, entity.scale));
+	return transformationMatrix;
+}

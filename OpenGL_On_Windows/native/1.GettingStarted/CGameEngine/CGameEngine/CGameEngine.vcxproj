@@ -127,7 +127,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="DisplayManager.h" />
+    <ClInclude Include="EntityRenderer.h" />
     <ClInclude Include="GameUtils.h" />
     <ClInclude Include="include\stb_image.h" />
     <ClInclude Include="Loader.h" />
@@ -135,13 +137,15 @@
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="Models.h" />
     <ClInclude Include="OpenGLRenderer.h" />
-    <ClInclude Include="OpenGLStateChanger.h" />
+    <ClInclude Include="OpenGLUtils.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="ShaderUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DisplayManager.cpp" />
+    <ClCompile Include="EntityRenderer.cpp" />
     <ClCompile Include="GameUtils.cpp" />
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="Logger.cpp" />
@@ -149,7 +153,7 @@
     <ClCompile Include="MathUtils.cpp" />
     <ClCompile Include="Models.cpp" />
     <ClCompile Include="OpenGLRenderer.cpp" />
-    <ClCompile Include="OpenGLStateChanger.cpp" />
+    <ClCompile Include="OpenGLUtils.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="ShaderUtils.cpp" />
   </ItemGroup>

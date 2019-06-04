@@ -2,8 +2,6 @@
 
 using namespace std;
 
-vector<GLuint> giShaderList;
-vector<GLuint> giShaderProgramObjectList;
 GLuint gShaderProgram;
 GLuint gLocColor;
 GLuint gLocPositionOffset;
@@ -25,6 +23,7 @@ GLuint buildVertexShader(const char *vertexShaderFileName)
 	const char* vsCode = vertexShaderSourceCode.c_str();
 	// code
 	vertexShader = glCreateShader(GL_VERTEX_SHADER); // creates vertex shader object
+	gShaderList.push_back(vertexShader); // add shader to the list of shaders
 	// attache source code to the above shader
 	glShaderSource(vertexShader, 1, &vsCode, NULL);
 	// compile the shader
@@ -42,7 +41,6 @@ GLuint buildVertexShader(const char *vertexShaderFileName)
 		logStaticData("ERROR::COMPILATION_FAILURE::Vertex Shader Logs: ");
 		logStaticData(infoLog);
 	}
-	giShaderList.push_back(vertexShader); // for cleanUp
 	return vertexShader;
 }
 
@@ -57,6 +55,7 @@ GLuint buildFragmentShader(const char* fragmentShaderFileName)
 	const char* fsCode = fragmentShaderSourceCode.c_str();
 	// code
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER); // creates fragment shader object
+	gShaderList.push_back(fragmentShader); // add shader to the list of shaders
 	// attache source code to the above shader
 	glShaderSource(fragmentShader, 1, &fsCode, NULL);
 	// compile the shader
@@ -74,7 +73,6 @@ GLuint buildFragmentShader(const char* fragmentShaderFileName)
 		logStaticData("ERROR::COMPILATION_FAILURE::Fragment Shader Logs: ");
 		logStaticData(infoLog);
 	}
-	giShaderList.push_back(fragmentShader); // for cleanUp
 	return fragmentShader;
 }
 
@@ -90,7 +88,7 @@ GLuint buildShaderProgramObject(const char* vertexShaderFileName, const char* fr
 	GLuint fragmentShader = buildFragmentShader(fragmentShaderFileName);
 	// create shader program
 	shaderProgramObject = glCreateProgram();
-
+	gShaderProgramObjectList.push_back(shaderProgramObject);
 	// attach shaders to the shader program object
 	glAttachShader(shaderProgramObject, vertexShader);
 	glAttachShader(shaderProgramObject, fragmentShader);
@@ -110,7 +108,7 @@ GLuint buildShaderProgramObject(const char* vertexShaderFileName, const char* fr
 		logStaticData("ERROR::LINKAGE_FAILURE::Linkage Shader Logs: ");
 		logStaticData(infoLog);
 	}
-	giShaderProgramObjectList.push_back(shaderProgramObject);
+	
 	gShaderProgram = shaderProgramObject;
 	return shaderProgramObject;
 }

@@ -4,26 +4,18 @@
 #include"DisplayManager.h"
 #include"ShaderProgram.h"
 #include"Models.h"
-#include"OpenGLStateChanger.h"
+#include"OpenGLUtils.h"
 #include"GameUtils.h"
 #include"Loader.h"
 #include"MathUtils.h"
+#include"EntityRenderer.h"
 
 using namespace std;
 
 // function prototype declarations
-extern void loadPositionDataToVAO(int dataSize, const float data[], int dimentsions, struct RawModel *rawModel);
-extern void loadPositionDataWithIndicesToVAO(int numElements, const float data[], int indicesSize, const unsigned int indices[], int dimentsions, struct RawModel* rawModel);
-extern vector<GLuint> giShaderList;
-extern vector<GLuint> giShaderProgramObjectList;
 
 // global variables
-GLuint giEntityShaderProgram;
 struct TexturedModel gBricksModelTexture;
-
-float offset = -1.5;
-float rotationAngle = 0.0f;
-extern float gMixParam;
 
 // transformation matrices
 glm::mat4 gModelMatrix;
@@ -45,9 +37,9 @@ glm::vec3 cubePositions[] = {
   glm::vec3(-1.3f,  1.0f, -1.5f)
 };
 
-extern float deltaTime; // Time between current frame and last frame
-float lastFrame = 0.0f; // Time of last frame
-extern float openGLInitializationTime; // time at which OpenGL is initialized
+extern long deltaTime; // Time between current frame and last frame
+long lastFrame = 0; // Time of last frame
+extern long openGLInitializationTime; // time at which OpenGL is initialized
 
 // initialize rendering
 void init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -161,20 +153,13 @@ void prepareOpenGLForRendering()
 	}
 	logStaticData("GLEW initialized successfully.");
 
-	const string vertexFile = SHADER_RESOURCE_FILE_LOC + string("vertexShader.vs");
-	const string fragmentFile = SHADER_RESOURCE_FILE_LOC + string("fragmentShader.fs");
-	// create shader program object
-	giEntityShaderProgram = buildShaderProgramObject(vertexFile.c_str(), fragmentFile.c_str());
-	logStaticData("Shader program object created.");
+	// create projection matrix
+	gProjectionMatrix = createPerspectiveProjectionMatrix(WIN_WIDTH, WIN_HEIGHT);
 
-	// Load uniforms
-	getAllUniformLocations(); // get the uniform locations
-	logStaticData("Loaded uniform locations.");
+	// initialize camera
+	initializeCamera();
 
-	startProgram(giEntityShaderProgram);
-	loadBricksTextureSampler(0);
-	loadFaceTextureSampler(1);
-	stopProgram();
+	prepareEntityRenderer(gProjectionMatrix);
 
 	// data
 	float vertices[] = {
@@ -253,18 +238,23 @@ void prepareOpenGLForRendering()
 	gBricksModelTexture.textureIDFace = loadTexture(faceImageFile);
 	//loadPositionDataWithIndicesToVAO(numElements, vertices, numIndices, indices, dimentions, &gTriangleModel);
 
-	// initialize camera
-	initializeCamera();
-
-	// initialize transformation matrices to identity
-	gModelMatrix = glm::mat4(1.0);
-	gViewMatrix = glm::mat4(1.0);
-	gProjectionMatrix = glm::mat4(1.0);
-	gViewMatrix = createViewMatrix(camera);
-	gProjectionMatrix = createPerspectiveProjectionMatrix(WIN_WIDTH, WIN_HEIGHT);
+	for (unsigned int i = 0; i < 10; i++)
+	{
+		struct Entity entity;
+		entity.texturedModel = gBricksModelTexture;
+		entity.translate = cubePositions[i];
+		entity.rotateX = 0;
+		entity.rotateY = 0;
+		entity.rotateZ = 0;
+		entity.scale = 1;
+		processEntity(entity);
+	}
 
 	// configure OpenGL states
 	enableDepthTesting();
+
+	// rough
+	
 }
 
 // uninitialize OpenGL context
@@ -273,19 +263,42 @@ void uninitializeOpenGL(void)
 	// local variables
 	std::vector<GLuint>::size_type index;
 
-	// close logger
-	closeFileLogger();
+	// clean up renderers
+	cleanUpEntities();
 
 	// delete shaders
-	for (index = 0; index != giShaderList.size(); index++)
+	for (index = 0; index != gShaderList.size(); index++)
 	{
-		glDeleteShader(giShaderList[index]);
+		if(gShaderList[index])
+			glDeleteShader(gShaderList[index]);
 	}
 
-	// delete shader program objects
-	for (index = 0; index != giShaderProgramObjectList.size(); index++)
+	// delete shaders programs
+	for (index = 0; index != gShaderProgramObjectList.size(); index++)
 	{
-		glDeleteProgram(giShaderProgramObjectList[index]);
+		if(gShaderProgramObjectList[index])
+			glDeleteProgram(gShaderProgramObjectList[index]);
+	}
+
+	// delete buffers
+	for (index = 0; index != gVBOList.size(); index++)
+	{
+		if(gVBOList[index])
+			glDeleteBuffers(1, &gVBOList[index]);
+	}
+
+	// delete VAOs
+	for (index = 0; index != gVAOList.size(); index++)
+	{
+		if(gVAOList[index])
+			glDeleteVertexArrays(1, &gVAOList[index]);
+	}
+
+	// delete textures
+	for (index = 0; index != gTexturesList.size(); index++)
+	{
+		if (gTexturesList[index])
+			glDeleteTextures(1, &gTexturesList[index]);
 	}
 
 	// uninitialize window first
@@ -302,6 +315,9 @@ void uninitializeOpenGL(void)
 
 	DestroyWindow(ghwnd);
 	ghwnd = NULL;
+
+	// close logger
+	closeFileLogger();
 }
 
 
@@ -311,66 +327,19 @@ void display(void)
 	
 
 	//code
-	offset = offset + 0.001f;
-	if (offset >= 1.5)
-	{
-		offset = -1.5f;
-	}
-
-	rotationAngle = rotationAngle + 0.1f;
-	if (rotationAngle > 360)
-	{
-		rotationAngle = 0.0f;
-	}
-
-	float currentFrame = getTimeInSecondsSinceOpenGLIsInitialized();
+	long currentFrame = getTimeInSecondsSinceOpenGLIsInitialized();
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
-	//fprintf(gLogfile, "dt-%f\n", deltaTime);
+
+	// clear OpenGL color and depth buffers
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	startProgram(giEntityShaderProgram);
-
-	// bind textures
-	bindTextureUnits(gBricksModelTexture);
-
-	// reset transformation matrices to identity
-	//gModelMatrix = glm::mat4(1.0);
 	
-	long time = timeSinceEpochMillisec();
-	float angle = (time) % 360;
-	//load uniforms
-	//float gVal = (sin(timeSinceEpochMillisec() / 1000) / 2.0) + 0.5f; // vary the color in the range of 0.0 and 1.0
-
 	// calculate camera offsets
 	updateCameraPosition(gCameraPosition);
-	gViewMatrix = createViewMatrix(camera);
-
-	loadPositionOffset(offset);
-	loadMixParam(gMixParam);
-	loadViewMatrix(gViewMatrix);
-	loadProjectionMatrix(gProjectionMatrix);
-
-	// unbind VAO
-	glBindVertexArray(gBricksModelTexture.rawModel.vaoID);
-	// render ground
-	for (unsigned int i = 0; i < 10; i++)
-	{
-		gModelMatrix = glm::mat4(1.0f);
-		gModelMatrix = glm::translate(gModelMatrix, cubePositions[i]);
-		float angle = 20.0f * i;
-		gModelMatrix = glm::rotate(gModelMatrix, glm::radians(rotationAngle), glm::vec3(1.0f, 0.0f, 0.0f));
-		gModelMatrix = glm::rotate(gModelMatrix, glm::radians(rotationAngle), glm::vec3(0.0f, 1.0f, 0.0f));
-		gModelMatrix = glm::rotate(gModelMatrix, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
-		loadModelMatrix(gModelMatrix);
-
-		draw(gBricksModelTexture.rawModel.vertexCount, false);
-	}
-	// unbind VAO
-	glBindVertexArray(0);
-
-	stopProgram();
 	
+	// render ground
+	renderEntity();
+
 	//glFlush(); //removing this as not needed for double buffer; instead use below
 	SwapBuffers(ghdc);
 }
