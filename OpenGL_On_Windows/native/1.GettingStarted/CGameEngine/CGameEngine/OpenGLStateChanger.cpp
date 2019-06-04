@@ -14,3 +14,15 @@ void disableWireframeMode()
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
+
+// enables depth testing
+void enableDepthTesting()
+{
+	glEnable(GL_DEPTH_TEST);
+}
+
+// disable depth testing
+void disableDepthTesting()
+{
+	glDisable(GL_DEPTH_TEST);
+}

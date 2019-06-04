@@ -10,6 +10,10 @@
 #include <sstream>
 #include <iostream>
 
+#define GLEW_STATIC
+#include<GL/glew.h>
+#include<gl/GL.h> // for OpenGL
+
 // for image loading
 // the preprocessor modifies the header file such that it only contains 
 // the relevant definition source code, effectively turning the header file into a .cpp file
@@ -20,4 +24,5 @@ uint64_t timeSinceEpochMillisec();
 extern std::string SHADER_RESOURCE_FILE_LOC;
 extern std::string IMAGES_RESOURCE_FILE_LOC;
 std::string readShader(const char* fileName); // read the shader file
+void draw(GLuint vertexCount, bool isIndexed);
 #endif // !H_GAME_UTILS

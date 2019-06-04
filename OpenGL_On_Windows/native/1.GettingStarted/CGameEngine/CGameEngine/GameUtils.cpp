@@ -48,3 +48,16 @@ std::string readShader(const char* fileName)
 
 	return shaderCode;
 }
+
+
+void draw(GLuint vertexCount, bool isIndexed)
+{
+	if (isIndexed) // if indexed drawing requested
+	{
+		glDrawElements(GL_TRIANGLES, vertexCount, GL_UNSIGNED_INT, 0);
+	}
+	else
+	{
+		glDrawArrays(GL_TRIANGLES, 0, vertexCount);
+	}
+}

@@ -30,6 +30,20 @@ glm::mat4 gModelMatrix;
 glm::mat4 gViewMatrix;
 extern glm::mat4 gProjectionMatrix;
 
+glm::vec3 cubePositions[] = {
+  glm::vec3(0.0f,  0.0f,  0.0f),
+  glm::vec3(2.0f,  5.0f, -15.0f),
+  glm::vec3(-1.5f, -2.2f, -2.5f),
+  glm::vec3(-3.8f, -2.0f, -12.3f),
+  glm::vec3(2.4f, -0.4f, -3.5f),
+  glm::vec3(-1.7f,  3.0f, -7.5f),
+  glm::vec3(1.3f, -2.0f, -2.5f),
+  glm::vec3(1.5f,  2.0f, -2.5f),
+  glm::vec3(1.5f,  0.2f, -1.5f),
+  glm::vec3(-1.3f,  1.0f, -1.5f)
+};
+
+
 // initialize rendering
 void init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -211,8 +225,8 @@ void prepareOpenGLForRendering()
 	int numCubeElements = sizeof(cubeVertices) / sizeof(cubeVertices[0]);
 	// load data to VAO
 	//loadPositionDataToVAO(numElements, vertices, dimentions, &gTriangleModel);
-	//loadInterleavedDataToVAO(numElements, vertices, true, true, &gBricksModelTexture.rawModel);
-	loadInterleavedDataWithIndicesToVAO(numElements, vertices, true, true, numIndices, indices, &gBricksModelTexture.rawModel);
+	loadInterleavedDataToVAO(numCubeElements, cubeVertices, false, true, &gBricksModelTexture.rawModel);
+	//loadInterleavedDataWithIndicesToVAO(numElements, vertices, true, true, numIndices, indices, &gBricksModelTexture.rawModel);
 	// textured model
 	const string bricksImageFile = IMAGES_RESOURCE_FILE_LOC + string("container.jpg");
 	const string faceImageFile = IMAGES_RESOURCE_FILE_LOC + string("awesomeface.png");
@@ -227,6 +241,9 @@ void prepareOpenGLForRendering()
 	gProjectionMatrix = glm::mat4(1.0);
 	gViewMatrix = createViewMatrix();
 	gProjectionMatrix = createPerspectiveProjectionMatrix(WIN_WIDTH, WIN_HEIGHT);
+
+	// configure OpenGL states
+	enableDepthTesting();
 }
 
 // uninitialize OpenGL context
@@ -281,7 +298,7 @@ void display(void)
 		rotationAngle = 0.0f;
 	}
 	//code
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	startProgram(giEntityShaderProgram);
 
@@ -293,60 +310,28 @@ void display(void)
 	
 	long time = timeSinceEpochMillisec();
 	float angle = (time) % 360;
-	//create transformation matrix
-	glm::mat4 transform = glm::mat4(1.0);
-	transform = glm::translate(transform, glm::vec3(0.5f, -0.5f, 0.0f));
-	transform = glm::rotate(transform, glm::radians(rotationAngle), glm::vec3(0.0, 0.0, 1.0));
-	transform = glm::scale(transform, glm::vec3(0.5, 0.5, 0.5));
-	gModelMatrix = transform;
 	//load uniforms
 	float gVal = (sin(timeSinceEpochMillisec() / 1000) / 2.0) + 0.5f; // vary the color in the range of 0.0 and 1.0
 	loadPositionOffset(offset);
 	loadMixParam(gMixParam);
-	loadModelMatrix(gModelMatrix);
 	loadViewMatrix(gViewMatrix);
 	loadProjectionMatrix(gProjectionMatrix);
 
-	// bind VAO
-	glBindVertexArray(gBricksModelTexture.rawModel.vaoID);
-
-	//glDrawArrays(GL_TRIANGLES, 0, gBricksModelTexture.rawModel.vertexCount);
-	glDrawElements(GL_TRIANGLES, gBricksModelTexture.rawModel.vertexCount, GL_UNSIGNED_INT, 0); // for indexed drawing
-	
-	//unbind VAO
-	glBindVertexArray(0);
-
-
-	// another container
-	transform = glm::mat4(1.0);
-	transform = glm::translate(transform, glm::vec3(-0.5f, 0.5f, 0.0f));
-	//transform = glm::rotate(transform, glm::radians(rotationAngle), glm::vec3(0.0, 0.0, 1.0));
-	transform = glm::scale(transform, glm::vec3(glm::sin(offset)));
-	gModelMatrix = transform;
-	loadModelMatrix(gModelMatrix);
-	// bind VAO
-	glBindVertexArray(gBricksModelTexture.rawModel.vaoID);
-
-	//glDrawArrays(GL_TRIANGLES, 0, gBricksModelTexture.rawModel.vertexCount);
-	glDrawElements(GL_TRIANGLES, gBricksModelTexture.rawModel.vertexCount, GL_UNSIGNED_INT, 0); // for indexed drawing
-
 	// unbind VAO
-	glBindVertexArray(0);
-
-
-	// render ground
-	transform = glm::mat4(1.0);
-	//transform = glm::translate(transform, glm::vec3(-0.5f, 0.5f, 0.0f));
-	transform = glm::rotate(transform, glm::radians(-55.0f), glm::vec3(1.0, 0.0, 0.0));
-	//transform = glm::scale(transform, glm::vec3(glm::sin(offset)));
-	gModelMatrix = transform;
-	loadModelMatrix(gModelMatrix);
-	// bind VAO
 	glBindVertexArray(gBricksModelTexture.rawModel.vaoID);
+	// render ground
+	for (unsigned int i = 0; i < 10; i++)
+	{
+		gModelMatrix = glm::mat4(1.0f);
+		gModelMatrix = glm::translate(gModelMatrix, cubePositions[i]);
+		float angle = 20.0f * i;
+		gModelMatrix = glm::rotate(gModelMatrix, glm::radians(rotationAngle), glm::vec3(1.0f, 0.0f, 0.0f));
+		gModelMatrix = glm::rotate(gModelMatrix, glm::radians(rotationAngle), glm::vec3(0.0f, 1.0f, 0.0f));
+		gModelMatrix = glm::rotate(gModelMatrix, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
+		loadModelMatrix(gModelMatrix);
 
-	//glDrawArrays(GL_TRIANGLES, 0, gBricksModelTexture.rawModel.vertexCount);
-	glDrawElements(GL_TRIANGLES, gBricksModelTexture.rawModel.vertexCount, GL_UNSIGNED_INT, 0); // for indexed drawing
-
+		draw(gBricksModelTexture.rawModel.vertexCount, false);
+	}
 	// unbind VAO
 	glBindVertexArray(0);
 

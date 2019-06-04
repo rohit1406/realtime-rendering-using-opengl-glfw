@@ -8,4 +8,6 @@
 
 void enableWireframeMode(); // enables wireframe mode
 void disableWireframeMode(); // disables wireframe mode
+void enableDepthTesting(); // enables depth testing
+void disableDepthTesting(); // disable depth testing
 #endif // !H_STATE_CHANGER
