@@ -28,6 +28,15 @@ struct TexturedModel
 	GLuint textureIDFace;
 };
 
+// materials properties of an objects
+struct Material
+{
+	glm::vec3 ambient;
+	glm::vec3 diffuse;
+	glm::vec3 specular;
+	float shininess;
+};
+
 // textured models having it's own translations, rotations and scaling factors
 struct Entity
 {
@@ -37,13 +46,17 @@ struct Entity
 	float rotateY;
 	float rotateZ;
 	float scale; // uniform scaling
+	struct Material material;
 };
 
-// light source
+// light source - as light is also one of the entity
 struct Light
 {
 	struct Entity entity;
 	glm::vec3 lightPosition;
 	glm::vec3 lightColor;
+	glm::vec3 ambient;
+	glm::vec3 diffuse;
+	glm::vec3 specular;
 };
 #endif // !H_MODELS

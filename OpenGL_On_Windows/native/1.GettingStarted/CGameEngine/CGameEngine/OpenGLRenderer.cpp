@@ -306,6 +306,93 @@ void prepareOpenGLForRendering()
 		entity.rotateY = 0;
 		entity.rotateZ = 0;
 		entity.scale = 1;
+		if (i == 0)
+		{
+			// emerald
+			entity.material.ambient = glm::vec3(0.0215f, 0.1745f, 0.0215f);
+			entity.material.diffuse = glm::vec3(0.07568f,0.61424f, 0.07568f);
+			entity.material.specular = glm::vec3(0.633f, 0.727811f,0.633f);
+			entity.material.shininess = 0.6f;
+		}else if (i == 1)
+		{
+			// pearl
+			entity.material.ambient = glm::vec3(0.25f, 0.20725f, 0.20725f);
+			entity.material.diffuse = glm::vec3(1.0f, 0.829f, 0.829f);
+			entity.material.specular = glm::vec3(0.296648f, 0.296648f, 0.296648f);
+			entity.material.shininess = 0.088f;
+		}
+		else if (i == 2)
+		{
+			// ruby
+			entity.material.ambient = glm::vec3(0.1745f, 0.01175f, 0.01175f);
+			entity.material.diffuse = glm::vec3(0.61424f, 0.04136f, 0.04136f);
+			entity.material.specular = glm::vec3(0.727811f, 0.626959f, 0.626959f);
+			entity.material.shininess = 0.6f;
+		}
+		else if (i == 3)
+		{
+			// chrome
+			entity.material.ambient = glm::vec3(0.25f, 0.25f, 0.25f);
+			entity.material.diffuse = glm::vec3(0.4f, 0.4f, 0.4f);
+			entity.material.specular = glm::vec3(0.774597f, 0.774597f, 0.774597f);
+			entity.material.shininess = 0.6f;
+		}
+		else if (i == 4)
+		{
+			// copper
+			entity.material.ambient = glm::vec3(0.19125f, 0.0735f, 0.0225f);
+			entity.material.diffuse = glm::vec3(0.7038f,0.27048f, 0.0828f);
+			entity.material.specular = glm::vec3(0.256777f, 0.137622f, 0.086014f);
+			entity.material.shininess = 0.1f;
+		}
+		else if (i == 5)
+		{
+			// gold
+			entity.material.ambient = glm::vec3(0.24725f, 0.1995f, 0.0745f);
+			entity.material.diffuse = glm::vec3(0.75164f, 0.60648f, 0.22648f);
+			entity.material.specular = glm::vec3(0.628281f, 0.555802f, 0.366065f);
+			entity.material.shininess = 0.4f;
+		}
+		else if (i == 6)
+		{
+			// silver
+			entity.material.ambient = glm::vec3(0.19225f, 0.19225f, 0.19225f);
+			entity.material.diffuse = glm::vec3(0.50754f, 0.50754f, 0.50754f);
+			entity.material.specular = glm::vec3(0.508273f, 0.508273f, 0.508273f);
+			entity.material.shininess = 0.4f;
+		}
+		else if (i == 7)
+		{
+			// cyan rubber
+			entity.material.ambient = glm::vec3(0.0f, 0.05f, 0.05f);
+			entity.material.diffuse = glm::vec3(0.4f, 0.5f, 0.5f);
+			entity.material.specular = glm::vec3(0.04, 0.7f, 0.7f);
+			entity.material.shininess = 0.078125f;
+		}
+		else if (i == 8)
+		{
+			// yellow rubber
+			entity.material.ambient = glm::vec3(0.05f, 0.05f, 0.0f);
+			entity.material.diffuse = glm::vec3(0.5f, 0.5f, 0.4f);
+			entity.material.specular = glm::vec3(0.7, 0.7f, 0.04f);
+			entity.material.shininess = 0.078125f;
+		}
+		else if (i == 9)
+		{
+			// red plastic
+			entity.material.ambient = glm::vec3(0.0f, 0.0f, 0.0f);
+			entity.material.diffuse = glm::vec3(0.5f, 0.0f, 0.0f);
+			entity.material.specular = glm::vec3(0.7f, 0.6f, 0.6f);
+			entity.material.shininess = 0.25f;
+		}
+		else
+		{
+			// white plastic
+			entity.material.ambient = glm::vec3(0.0f, 0.0f, 0.0f);
+			entity.material.diffuse = glm::vec3(0.55f, 0.55f, 0.55f);
+			entity.material.specular = glm::vec3(0.70f, 0.70f, 0.70f);
+			entity.material.shininess = 0.25f;
+		}
 		processEntity(entity);
 	}
 

@@ -12,10 +12,15 @@ GLuint gLocModelMatrix;
 GLuint gLocViewMatrix;
 GLuint gLocProjectionMatrix;
 GLuint gLocObjectColor;
-GLuint gLocLightColor;
+GLuint gLocLightAmbient;
+GLuint gLocLightDiffuse;
+GLuint gLocLightSpecular;
 GLuint gLocLightPosition;
 GLuint gLocViewerPosition;
-
+GLuint gLocMaterialAmbient;
+GLuint gLocMaterialDiffuse;
+GLuint gLocMaterialSpecular;
+GLuint gLocMaterialShininess;
 
 // gets all uniform locations
 void getAllUniformLocations()
@@ -29,9 +34,15 @@ void getAllUniformLocations()
 	gLocViewMatrix = glGetUniformLocation(gShaderProgramEntity, "u_view_matrix");
 	gLocProjectionMatrix = glGetUniformLocation(gShaderProgramEntity, "u_projection_matrix");
 	gLocObjectColor = glGetUniformLocation(gShaderProgramEntity, "u_object_color");
-	gLocLightColor = glGetUniformLocation(gShaderProgramEntity, "u_light_color");
-	gLocLightPosition = glGetUniformLocation(gShaderProgramEntity, "u_light_position");
+	gLocLightAmbient = glGetUniformLocation(gShaderProgramEntity, "light.ambient");
+	gLocLightDiffuse = glGetUniformLocation(gShaderProgramEntity, "light.diffuse");
+	gLocLightSpecular = glGetUniformLocation(gShaderProgramEntity, "light.specular");
+	gLocLightPosition = glGetUniformLocation(gShaderProgramEntity, "light.position");
 	gLocViewerPosition = glGetUniformLocation(gShaderProgramEntity, "u_viewer_position");
+	gLocMaterialAmbient = glGetUniformLocation(gShaderProgramEntity, "material.ambient");
+	gLocMaterialDiffuse = glGetUniformLocation(gShaderProgramEntity, "material.diffuse");
+	gLocMaterialSpecular = glGetUniformLocation(gShaderProgramEntity, "material.specular");
+	gLocMaterialShininess = glGetUniformLocation(gShaderProgramEntity, "material.shininess");
 }
 
 
@@ -45,11 +56,6 @@ void loadLightPosition(glm::vec3 lightPos)
 {
 	setVector3v(gLocLightPosition, lightPos);
 
-}
-
-void loadLightColor(glm::vec3 lightColor)
-{
-	setVector3v(gLocLightColor, lightColor);
 }
 
 // set the position offset to the triangle
@@ -100,4 +106,20 @@ void loadViewMatrix(glm::mat4 transformationMatrix)
 void loadProjectionMatrix(glm::mat4 transformationMatrix)
 {
 	setMat4(gLocProjectionMatrix, transformationMatrix);
+}
+
+void loadMaterialProperties(struct Material material)
+{
+	setVector3v(gLocMaterialAmbient, material.ambient);
+	setVector3v(gLocMaterialDiffuse, material.diffuse);
+	setVector3v(gLocMaterialSpecular, material.specular);
+	setFloat(gLocMaterialShininess, material.shininess);
+}
+
+void loadLightProperties(struct Light light)
+{
+	setVector3v(gLocLightAmbient, light.ambient);
+	setVector3v(gLocLightDiffuse, light.diffuse);
+	setVector3v(gLocLightSpecular, light.specular);
+	setVector3v(gLocLightPosition, light.lightPosition);
 }

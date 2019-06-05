@@ -53,10 +53,8 @@ void renderEntity(struct Light light)
 		loadModelMatrix(getTransformationMatrix(transformationMatrix, entities[i]));
 		loadViewMatrix(createViewMatrix(camera));
 		loadMixParam(gMixParam);
-
-		loadObjectColor(glm::vec3(1.0, 0.5f, 0.31f));
-		loadLightColor(light.lightColor);
-		loadLightPosition(light.lightPosition);
+		loadMaterialProperties(entities[i].material);
+		loadLightProperties(light);
 		loadViewerPosition(camera.position);
 		// bind texture units
 		bindTextureUnits(entities[i].texturedModel);

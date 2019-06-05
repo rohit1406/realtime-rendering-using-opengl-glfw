@@ -16,6 +16,9 @@ void setUpLight(struct Light* light, struct TexturedModel *texturedModel)
 	light->entity.scale = 0.2f;
 	light->lightColor = glm::vec3(1, 1, 1);
 	light->lightPosition = light->entity.translate;
+	light->ambient = glm::vec3(0.2f, 0.2f, 0.2f);
+	light->diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+	light->specular = glm::vec3(1.0f, 1.0f, 1.0f);
 }
 
 void prepareSunRenderer(glm::mat4 projectionMatrix)
