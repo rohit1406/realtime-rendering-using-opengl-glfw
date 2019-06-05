@@ -30,3 +30,15 @@ void disableDepthTesting()
 	glDisable(GL_DEPTH_TEST);
 	logStaticData("Disabled depth testing");
 }
+
+// starts the shader program
+void startProgram(GLuint shaderProgram)
+{
+	glUseProgram(shaderProgram);
+}
+
+// stops the shader program
+void stopProgram()
+{
+	glUseProgram(0);
+}

@@ -8,7 +8,7 @@ void setVector4f(GLuint uniformLocation, GLfloat a, GLfloat b, GLfloat c, GLfloa
 }
 
 // set vector having 4 float values
-void setVector4v(GLuint uniformLocation, vector<GLfloat> vec)
+void setVector4v(GLuint uniformLocation, glm::vec4 vec)
 {
 	setVector4f(uniformLocation, vec[0], vec[1], vec[2], vec[3]);
 }
@@ -20,7 +20,7 @@ void setVector3f(GLuint uniformLocation, GLfloat a, GLfloat b, GLfloat c)
 }
 
 // set vector having 3 float values
-void setVector3v(GLuint uniformLocation, vector<GLfloat> vec)
+void setVector3v(GLuint uniformLocation, glm::vec3 vec)
 {
 	setVector3f(uniformLocation, vec[0], vec[1], vec[2]);
 }
@@ -32,7 +32,7 @@ void setVector2f(GLuint uniformLocation, GLfloat a, GLfloat b)
 }
 
 // set vector having 2 float values
-void setVector2v(GLuint uniformLocation, vector<GLfloat> vec) 
+void setVector2v(GLuint uniformLocation, glm::vec2 vec)
 {
 	setVector2f(uniformLocation, vec[0], vec[1]);
 }

@@ -28,6 +28,7 @@ struct TexturedModel
 	GLuint textureIDFace;
 };
 
+// textured models having it's own translations, rotations and scaling factors
 struct Entity
 {
 	struct TexturedModel texturedModel;
@@ -36,5 +37,13 @@ struct Entity
 	float rotateY;
 	float rotateZ;
 	float scale; // uniform scaling
+};
+
+// light source
+struct Light
+{
+	struct Entity entity;
+	glm::vec3 lightPosition;
+	glm::vec3 lightColor;
 };
 #endif // !H_MODELS

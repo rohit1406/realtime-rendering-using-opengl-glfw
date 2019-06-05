@@ -5,8 +5,10 @@ RSM: OpenGL context initialized successfully.
 RSM: Initializing GLEW
 RSM: GLEW initialized successfully.
 RSM: Camera initialized
-RSM: Shader program object created.
-RSM: Loaded uniform locations.
+RSM: Entity Shader program object created.
+RSM: Loaded entity uniform locations.
+RSM: Sun Shader program object created.
+RSM: Loaded Sun uniform locations.
 RSM: Enabled depth testing
 
 Log file is closed successfully...

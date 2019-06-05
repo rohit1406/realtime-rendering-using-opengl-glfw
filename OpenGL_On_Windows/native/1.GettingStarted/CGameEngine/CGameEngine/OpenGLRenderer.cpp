@@ -9,6 +9,7 @@
 #include"Loader.h"
 #include"MathUtils.h"
 #include"EntityRenderer.h"
+#include"SunRenderer.h"
 
 using namespace std;
 
@@ -16,6 +17,8 @@ using namespace std;
 
 // global variables
 struct TexturedModel gBricksModelTexture;
+struct TexturedModel gSun;
+struct Light light;
 
 // transformation matrices
 glm::mat4 gModelMatrix;
@@ -25,7 +28,7 @@ extern glm::mat4 gProjectionMatrix;
 extern struct Camera camera;
 
 glm::vec3 cubePositions[] = {
-  glm::vec3(0.0f,  0.0f,  0.0f),
+  glm::vec3(0.0f,  0.0f,  -20.0f),
   glm::vec3(2.0f,  5.0f, -15.0f),
   glm::vec3(-1.5f, -2.2f, -2.5f),
   glm::vec3(-3.8f, -2.0f, -12.3f),
@@ -40,6 +43,7 @@ glm::vec3 cubePositions[] = {
 extern long deltaTime; // Time between current frame and last frame
 long lastFrame = 0; // Time of last frame
 extern long openGLInitializationTime; // time at which OpenGL is initialized
+GLfloat rotationAngle = 0.0f;
 
 // initialize rendering
 void init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -160,14 +164,60 @@ void prepareOpenGLForRendering()
 	initializeCamera();
 
 	prepareEntityRenderer(gProjectionMatrix);
+	prepareSunRenderer(gProjectionMatrix);
 
 	// data
-	float vertices[] = {
+	/*float vertices[] = {
 		// positions          // colors           // texture coords
 		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   2.0f, 2.0f,   // top right
 		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   2.0f, 0.0f,   // bottom right
 		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
 		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 2.0f    // top left 
+	};*/
+
+	float vertices[] = {
+	// positions			// normals
+	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+
+	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+
+	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+	-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+
+	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+
+	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+
+	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+	 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 	};
 
 	float cubeVertices[] =
@@ -228,16 +278,25 @@ void prepareOpenGLForRendering()
 	int numCubeElements = sizeof(cubeVertices) / sizeof(cubeVertices[0]);
 	// load data to VAO
 	//loadPositionDataToVAO(numElements, vertices, dimentions, &gTriangleModel);
-	loadInterleavedDataToVAO(numCubeElements, cubeVertices, false, true, &gBricksModelTexture.rawModel);
+	//loadInterleavedDataToVAO(numCubeElements, cubeVertices, false, true, &gBricksModelTexture.rawModel);
+	loadInterleavedDataPosColNorTexToVAO(numElements, vertices, false, true, false, &gBricksModelTexture.rawModel);
 	//loadInterleavedDataWithIndicesToVAO(numElements, vertices, true, true, numIndices, indices, &gBricksModelTexture.rawModel);
 	// textured model
-	const string bricksImageFile = IMAGES_RESOURCE_FILE_LOC + string("container.jpg");
-	const string faceImageFile = IMAGES_RESOURCE_FILE_LOC + string("awesomeface.png");
+	//const string bricksImageFile = IMAGES_RESOURCE_FILE_LOC + string("container.jpg");
+	//const string faceImageFile = IMAGES_RESOURCE_FILE_LOC + string("awesomeface.png");
 	
-	gBricksModelTexture.textureID = loadTexture(bricksImageFile);
-	gBricksModelTexture.textureIDFace = loadTexture(faceImageFile);
+	//gBricksModelTexture.textureID = loadTexture(bricksImageFile);
+	//gBricksModelTexture.textureIDFace = loadTexture(faceImageFile);
 	//loadPositionDataWithIndicesToVAO(numElements, vertices, numIndices, indices, dimentions, &gTriangleModel);
 
+
+	// Create Light entity
+	loadInterleavedDataToVAO(numCubeElements, cubeVertices, false, true, &gSun.rawModel);
+	setUpLight(&light, &gSun);
+	processSun(light);
+	
+
+	// Create Other entities
 	for (unsigned int i = 0; i < 10; i++)
 	{
 		struct Entity entity;
@@ -257,6 +316,35 @@ void prepareOpenGLForRendering()
 	
 }
 
+void display(void)
+{
+	// local variables
+	rotationAngle += 0.1f;
+	if (rotationAngle >= 360.0f)
+	{
+		rotationAngle = 0.0f;
+	}
+
+	//code
+	long currentFrame = getTimeInSecondsSinceOpenGLIsInitialized();
+	deltaTime = currentFrame - lastFrame;
+	lastFrame = currentFrame;
+
+	// clear OpenGL color and depth buffers
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// calculate camera offsets
+	updateCameraPosition(gCameraPosition);
+	increateEntityRotation(rotationAngle, rotationAngle, rotationAngle);
+	// render
+	renderEntity(light);
+	renderSun();
+	
+
+	//glFlush(); //removing this as not needed for double buffer; instead use below
+	SwapBuffers(ghdc);
+}
+
 // uninitialize OpenGL context
 void uninitializeOpenGL(void)
 {
@@ -264,6 +352,7 @@ void uninitializeOpenGL(void)
 	std::vector<GLuint>::size_type index;
 
 	// clean up renderers
+	cleanUpSun();
 	cleanUpEntities();
 
 	// delete shaders
@@ -318,28 +407,4 @@ void uninitializeOpenGL(void)
 
 	// close logger
 	closeFileLogger();
-}
-
-
-void display(void)
-{
-	// local variables
-	
-
-	//code
-	long currentFrame = getTimeInSecondsSinceOpenGLIsInitialized();
-	deltaTime = currentFrame - lastFrame;
-	lastFrame = currentFrame;
-
-	// clear OpenGL color and depth buffers
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-	// calculate camera offsets
-	updateCameraPosition(gCameraPosition);
-	
-	// render ground
-	renderEntity();
-
-	//glFlush(); //removing this as not needed for double buffer; instead use below
-	SwapBuffers(ghdc);
 }

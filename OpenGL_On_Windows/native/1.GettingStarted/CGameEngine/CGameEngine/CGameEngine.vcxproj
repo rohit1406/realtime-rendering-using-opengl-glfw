@@ -130,8 +130,10 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DisplayManager.h" />
     <ClInclude Include="EntityRenderer.h" />
+    <ClInclude Include="EntityShaderProgram.h" />
     <ClInclude Include="GameUtils.h" />
     <ClInclude Include="include\stb_image.h" />
+    <ClInclude Include="SunRenderer.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="MathUtils.h" />
@@ -141,12 +143,15 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="ShaderUtils.h" />
+    <ClInclude Include="SunShaderProgram.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DisplayManager.cpp" />
     <ClCompile Include="EntityRenderer.cpp" />
+    <ClCompile Include="EntityShaderProgram.cpp" />
     <ClCompile Include="GameUtils.cpp" />
+    <ClCompile Include="SunRenderer.cpp" />
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -156,6 +161,7 @@
     <ClCompile Include="OpenGLUtils.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="ShaderUtils.cpp" />
+    <ClCompile Include="SunShaderProgram.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\MyCursor.cur">
@@ -163,6 +169,8 @@
       </DeploymentContent>
     </None>
     <None Include="res\shaders\fragmentShader.fs" />
+    <None Include="res\shaders\sun.fs" />
+    <None Include="res\shaders\sun.vs" />
     <None Include="res\shaders\vertexShader.vs" />
   </ItemGroup>
   <ItemGroup>

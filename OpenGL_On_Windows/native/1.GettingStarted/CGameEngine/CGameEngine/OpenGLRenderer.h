@@ -4,6 +4,7 @@
 //header files
 #include <Windows.h>
 #include"Logger.h"
+#include"SunRenderer.h"
 
 // global variable declarations
 extern HDC ghdc;

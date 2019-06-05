@@ -63,6 +63,15 @@
     <ClInclude Include="OpenGLUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SunShaderProgram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SunRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityShaderProgram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DisplayManager.cpp">
@@ -104,6 +113,15 @@
     <ClCompile Include="OpenGLUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SunShaderProgram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SunRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityShaderProgram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\MyCursor.cur">
@@ -113,6 +131,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="res\shaders\vertexShader.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="res\shaders\sun.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="res\shaders\sun.vs">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

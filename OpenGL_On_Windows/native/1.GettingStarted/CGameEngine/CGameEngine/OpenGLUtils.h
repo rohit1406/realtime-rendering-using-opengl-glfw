@@ -8,6 +8,8 @@
 #include"GameUtils.h"
 #include"Logger.h"
 
+void startProgram(GLuint shaderProgram); // starts the shader program
+void stopProgram(); // stops the shader program
 void enableWireframeMode(); // enables wireframe mode
 void disableWireframeMode(); // disables wireframe mode
 void enableDepthTesting(); // enables depth testing

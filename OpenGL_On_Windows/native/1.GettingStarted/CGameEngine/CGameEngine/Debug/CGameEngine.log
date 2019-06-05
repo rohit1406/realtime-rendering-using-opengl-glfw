@@ -1,2 +1,15 @@
-﻿  DisplayManager.cpp
+﻿  EntityRenderer.cpp
+C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\EntityRenderer.cpp(46,20): warning C4018:  '<': signed/unsigned mismatch
+C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\EntityRenderer.cpp(78,20): warning C4018:  '<': signed/unsigned mismatch
+  EntityShaderProgram.cpp
+  Main.cpp
+  OpenGLRenderer.cpp
+C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\EntityRenderer.cpp(92,20): warning C4018:  '<': signed/unsigned mismatch
+  ShaderProgram.cpp
+  ShaderUtils.cpp
+  SunRenderer.cpp
+C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\OpenGLRenderer.cpp(58,51): warning C4244:  '=': conversion from 'uint64_t' to 'long', possible loss of data
+  SunShaderProgram.cpp
+  Generating Code...
+C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\CGameEngine\SunRenderer.cpp(52,20): warning C4018:  '<': signed/unsigned mismatch
   CGameEngine.vcxproj -> C:\Users\RohitMuneshwar\Documents\IBM\RTR\projects\learn_opengl\OpenGL_On_Windows\native\1.GettingStarted\CGameEngine\Debug\CGameEngine.exe
