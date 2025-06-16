@@ -1,3 +1,8 @@
+### Prerequisites:
+1. Windows 11 OS
+3. Visual Studio installation: [click here to download the installer](https://visualstudio.microsoft.com/downloads/)  
+    - this also installs Windows SDK
+
 **Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
 
 When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
