@@ -1,5 +1,5 @@
 ### 🌱 Description
-The program is a demonstration of how to create a simple plain window using GLFW which we will use later for rendering OpenGL context. GLFW library is used for the window management and OpenGL context management. To generate binary .exe file, follow below steps. Once .exe file is  executed, a new plain window will be popped up.
+The program is a demonstration of how to render a triangle using OpenGL. GLFW library is used for the window management and OpenGL context management. To generate binary .exe file, follow below steps. Once .exe file is  executed, a new window will appear with **a colored triangle** rendered on it.
 
 ### 🗣️ Dependencies
 This project has dependencies on following libraries:

@@ -5,7 +5,8 @@ This Repository contains the demos of OpenGL applications. These demos are focus
 ## 🗃️ Demos
 | #    | **Demo Link** | **Description** |  **Output**
 | --- | ---------------------|-------------------|-------|
-| 01 | [Plain Window using GLFW](./OpenGL_On_Windows/GLFW/1_GettingStarted/1_Plain_Window_16102018/README.md) | Create a plain Window using GLFW | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/1_Plain_Window_16102018/images/output.png)
+| 01 | [Plain Window using GLFW](./OpenGL_On_Windows/GLFW/1_GettingStarted/1_Plain_Window_16102018/README.md) | Create a plain Window using GLFW | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/1_Plain_Window_16102018/images/output.png) |  
+| 02 | [Colored Triangle](./OpenGL_On_Windows/GLFW/1_GettingStarted/2_Triangle_17102018/README.md) | Render a colored triangle on Window | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/2_Triangle_17102018/images/output.png) |
 
 
 ### 🚀 Prerequisites
