@@ -1,7 +1,7 @@
-# 🌱 Description
-The program is a demonstration of how to create a simple plain window using GLFW which we will use later for rendering OpenGL context. GLFW library is used for the window management and OpenGL context management. To generate binary .exe file, follow [below steps](#🚀-how-to-run). Once .exe file is  executed, a new plain window will be popped up.
+## 🌱 Description
+The program is a demonstration of how to create a simple plain window using GLFW which we will use later for rendering OpenGL context. GLFW library is used for the window management and OpenGL context management. To generate binary .exe file, follow [below steps](#how-to-run). Once .exe file is  executed, a new plain window will be popped up.
 
-# 🗣️ Dependencies
+## 🗣️ Dependencies
 This project has dependencies on following libraries:
 1. **Windows SDK**  
 This contains a standard Windows system libraries such as **user32.lib, gdi32.lib, kernel32.lib, shell32.lib, opengl32.lib**.
@@ -14,7 +14,7 @@ for OpenGL context and window management
 3. **KHR**    
 To keep things simpler Khronos maintains the khrplatform header to be used by other headers maintained by Khronos, defining common data types, tokens and calling convention macros. 
 
-# 🚀 How To Run
+## How To Run
 1. Open Visual Studio **Developer Command Prompt**
 2. **Compile:** 
 ```
