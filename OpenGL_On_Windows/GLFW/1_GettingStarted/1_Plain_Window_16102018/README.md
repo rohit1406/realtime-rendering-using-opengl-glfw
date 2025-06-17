@@ -24,4 +24,7 @@ This will create **Window.exe** file in your current directory.
 4. **Run:** Window.exe  
 You will see a new Window is popped up with Title "OpenGL Window Using GLFW"
 
+5. **Output:**  
+Output of the run is as follows.
+![Image](./images/output.png)
 ---
