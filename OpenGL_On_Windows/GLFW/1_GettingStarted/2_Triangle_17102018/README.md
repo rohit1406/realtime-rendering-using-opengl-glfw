@@ -14,7 +14,7 @@ for OpenGL context and window management
 3. **KHR**    
 To keep things simpler Khronos maintains the khrplatform header to be used by other headers maintained by Khronos, defining common data types, tokens and calling convention macros. 
 
-# How To Run
+## How To Run
 1. Open Visual Studio **Developer Command Prompt**
 2. **Compile:** 
 ```
@@ -52,4 +52,12 @@ You will see a new Window is popped up with Title "OpenGL Window Using GLFW"
 5. **Output:**  
 Output of the run is as follows.
 ![Image](./images/output.png)
+---
+
+## 🌟 Developer/Contributor
+Name: Rohit Shamrao Muneshwar  
+Email: rohit.muneshwar1406@gmail.com  
+LinkedIn Profile: [Click Here](https://www.linkedin.com/in/rohit-muneshwar-a9079258/)  
+Other Github repositories: [Click Here](https://github.com/rohit1406?tab=repositories)  
+
 ---

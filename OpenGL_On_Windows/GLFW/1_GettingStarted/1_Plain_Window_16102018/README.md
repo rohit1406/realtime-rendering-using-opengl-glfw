@@ -53,3 +53,11 @@ You will see a new Window is popped up with Title "OpenGL Window Using GLFW"
 Output of the run is as follows.
 ![Image](./images/output.png)
 ---
+
+## 🌟 Developer/Contributor
+Name: Rohit Shamrao Muneshwar  
+Email: rohit.muneshwar1406@gmail.com  
+LinkedIn Profile: [Click Here](https://www.linkedin.com/in/rohit-muneshwar-a9079258/)  
+Other Github repositories: [Click Here](https://github.com/rohit1406?tab=repositories)  
+
+---
