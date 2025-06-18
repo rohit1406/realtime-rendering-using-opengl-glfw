@@ -11,8 +11,8 @@
 
 //header files
 #include<iostream>
-#include "Include\glad\glad.h" //glad.h should be before glfw3.h; it contains correct OpenGL headers includes
-#include "Include\GLFW\glfw3.h"
+#include "glad\glad.h" //glad.h should be before glfw3.h; it contains correct OpenGL headers includes
+#include "GLFW\glfw3.h"
 
 //macros
 #define WIN_WIDTH 800
@@ -73,7 +73,7 @@ int main()
 	GLFWwindow* window = glfwCreateWindow(
 									WIN_WIDTH, //width
 									WIN_HEIGHT, //height
-									"OpenGL: Triangle", //title
+									"OpenGL: Square", //title
 									NULL, //monitor
 									NULL //share
 								);

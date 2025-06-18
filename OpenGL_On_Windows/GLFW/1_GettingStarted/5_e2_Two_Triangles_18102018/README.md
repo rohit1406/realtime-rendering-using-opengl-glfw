@@ -1,5 +1,5 @@
 ## 🌱 Description
-The program is a demonstration of how to render a triangle using OpenGL. GLFW library is used for the window management and OpenGL context management. To generate binary .exe file, follow [below steps](#how-to-run). Once .exe file is  executed, a new window will appear with an output rendered on it.
+The program is a demonstration of how to render two triangles in OpenGL using seperate VAO (Vertext Buffer Object) for each triangle. GLFW library is used for the window management and OpenGL context management. To generate binary .exe file, follow [below steps](#how-to-run). Once .exe file is  executed, a new window will appear with an output rendered on it.
 
 ## 🗣️ Dependencies
 This project has dependencies on following libraries:
@@ -46,7 +46,7 @@ GLFW
 ```  
 This will create **Window.exe** file in your current directory.    
 
-4. **Run:** Double Click(Execute) Window.exe to see the output
+4. **Run:** Double Click(Execute) Window.exe to see the output  
 
 5. **Output:**  
 Output of the run is as follows.
