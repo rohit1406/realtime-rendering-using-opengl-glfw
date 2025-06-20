@@ -11,14 +11,14 @@
 
 //header files
 #include<iostream>
-#include "Include\glad\glad.h" //glad.h should be before glfw3.h; it contains correct OpenGL headers includes
-#include "Include\GLFW\glfw3.h"
+#include "glad\glad.h" //glad.h should be before glfw3.h; it contains correct OpenGL headers includes
+#include "GLFW\glfw3.h"
 
 #include "shader.h"
 
 //by defining this, the preprocessor modifies the header file such that it contains only the relevant definition source code
 #define STB_IMAGE_IMPLEMENTATION
-#include "Include\stb_image.h"
+#include "stb_image.h"
 
 //macros
 #define WIN_WIDTH 800

@@ -12,6 +12,20 @@ This Repository contains the demos of OpenGL applications. These demos are focus
 | 05 | [Two Triangles Next To Each Other](./OpenGL_On_Windows/GLFW/1_GettingStarted/5_e2_Two_Triangles_18102018/README.md) | Render two triangles using seperate VAO for each triangle | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/5_e2_Two_Triangles_18102018/images/output.png) |
 | 06 | [Two Triangles Next To Each Other](./OpenGL_On_Windows/GLFW/1_GettingStarted/6_e3_Two_Triangles_18102018/README.md) | Render two triangles with different colors using seperate VAO for each triangle. Color values are hardcoded in fragment shaders | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/6_e3_Two_Triangles_18102018/images/output.png) |
 | 07 | [Two Triangles Next To Each Other](./OpenGL_On_Windows/GLFW/1_GettingStarted/7_GLSL_Two_Triangles_18102018/README.md) | Render two triangles with different colors. Assign color value to one of the triangle via "uniform" | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/7_GLSL_Two_Triangles_18102018/images/output.png) |
+| 08 | [Two Triangles Next To Each Other with interleaved data](./OpenGL_On_Windows/GLFW/1_GettingStarted/8_GLSL_Two_Triangles_Interleaved_18102018/README.md) | Render two triangles with different colors and pass interleaved data for position and color in same VBO for one of the triangle | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/8_GLSL_Two_Triangles_Interleaved_18102018/images/output.png) |
+| 09 | [Triangle](./OpenGL_On_Windows/GLFW/1_GettingStarted/9_GL_Framework_18102018/README.md) | Render a triangle with shader code seperated from a cpp file | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/9_GL_Framework_18102018/images/output.png) |
+| 10 | [Triangle (upside down)](./OpenGL_On_Windows/GLFW/1_GettingStarted/10_e1_Triangle_18102018/README.md) | Render a triangle (upside down) | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/10_e1_Triangle_18102018/images/output.png) |
+| 11 | [Triangle with offset](./OpenGL_On_Windows/GLFW/1_GettingStarted/11_e2_Triangle_With_Offset_18102018/README.md) | Render a triangle with offset | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/11_e2_Triangle_With_Offset_18102018/images/output.png) |
+| 12 | [Colorful Triangle](./OpenGL_On_Windows/GLFW/1_GettingStarted/12_e3_Triangle_18102018/README.md) | Render a Colorful triangle | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/12_e3_Triangle_18102018/images/output.png) |
+| 13 | [Textured Rectangle](./OpenGL_On_Windows/GLFW/13_Texturing_Rectangle_19102018/README.md) | Render a textured rectangle | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/13_Texturing_Rectangle_19102018/images/output.png) |
+| 14 | [Funcky Colored Textured Rectangle](./OpenGL_On_Windows/GLFW/14_Texturing_Rectangle_FunkyColor_19102018/README.md) | Render a funcky colored textured rectangle | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/14_Texturing_Rectangle_FunkyColor_19102018/images/output.png) |
+| 16 | [Blended Textured Rectangle](./OpenGL_On_Windows/GLFW/16_e1_Texturing_Rectangle_MultiTextureSampling_19102018/README.md) | Render a blended multi textured rectangle | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/16_e1_Texturing_Rectangle_MultiTextureSampling_19102018/images/output.png) |
+| 18 | [Textured Rectangle with image clamping](./OpenGL_On_Windows/GLFW/18_e3_Texturing_Rectangle_MultiTextureSampling_19102018/README.md) | Render an indexed textured rectangle | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/18_e3_Texturing_Rectangle_MultiTextureSampling_19102018/images/output.png) |
+| 19 | [Textured Rectangle with transformation](./OpenGL_On_Windows/GLFW/19_Texturing_Rectangle_Transformations_19102018/README.md) | Render a textured rectangle and applied transformation to it - V1 | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/19_Texturing_Rectangle_Transformations_19102018/images/output.png) |
+| 20 | [Textured Rectangle with transformation V2](./OpenGL_On_Windows/GLFW/20_e1_Texturing_Rectangle_Transformations_19102018/README.md) | Render a textured rectangle and applied transformation to it - V2 | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/20_e1_Texturing_Rectangle_Transformations_19102018/images/output.png) |
+| 21 | [Textured Rectangle with transformation V3](./OpenGL_On_Windows/GLFW/21_e2_Texturing_Rectangle_Transformations_19102018/README.md) | Render a textured rectangle and applied transformation to it - V3 | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/21_e2_Texturing_Rectangle_Transformations_19102018/images/output.png) |
+
+
 
 
 ### 🚀 Prerequisites
@@ -25,7 +39,8 @@ This Repository contains the demos of OpenGL applications. These demos are focus
   
 ### 🧠 Challenges/Issues
 ---
-#### GIT
+** Linker error
+LINK : warning LNK4098: defaultlib 'MSVCRTD' conflicts with use of other libs; use /NODEFAULTLIB:library in command line
 ---
 **Untrack already committed files to the repository from GIT**
 1. Add **.gitignore** file to the root of the repository
