@@ -5,7 +5,8 @@ This Repository contains the demos of OpenGL applications. These demos are focus
 ## 🗃️ Demos
 | #    | **Topic Link** | **Description** |
 | --- | ---------------------|-------------------|
-| 01 | [Getting Started](./OpenGL_On_Windows/GLFW/1_GettingStarted/README.md) | Set up simple rendering framework with capabilies like reading sharers from file, camera movements with keyboard and mouse |  
+| 01 | [Getting Started](./OpenGL_On_Windows/GLFW/1_GettingStarted/README.md) | Set up simple rendering framework with capabilies like set up rendering pipeline, render basic shapes (like triangle, rectangle, cube, etc),  reading shaders from file, camera movements with keyboard and mouse |  
+| 02 | [Lighting](./OpenGL_On_Windows/GLFW/2_Lighting/README.md) | Lighting Readme in progress |  
 
 
 
