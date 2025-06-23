@@ -24,8 +24,15 @@ This Repository contains the demos of OpenGL applications. These demos are focus
 | 19 | [Textured Rectangle with transformation](./OpenGL_On_Windows/GLFW/19_Texturing_Rectangle_Transformations_19102018/README.md) | Render a textured rectangle and applied transformation to it - V1 | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/19_Texturing_Rectangle_Transformations_19102018/images/output.png) |
 | 20 | [Textured Rectangle with transformation V2](./OpenGL_On_Windows/GLFW/20_e1_Texturing_Rectangle_Transformations_19102018/README.md) | Render a textured rectangle and applied transformation to it - V2 | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/20_e1_Texturing_Rectangle_Transformations_19102018/images/output.png) |
 | 21 | [Textured Rectangle with transformation V3](./OpenGL_On_Windows/GLFW/21_e2_Texturing_Rectangle_Transformations_19102018/README.md) | Render a textured rectangle and applied transformation to it - V3 | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/21_e2_Texturing_Rectangle_Transformations_19102018/images/output.png) |
-
-
+| 22 | [Going 3D with Rectangle](./OpenGL_On_Windows/GLFW/22_Going_3D_20102018/README.md) | Render a textured rectangle in 3D space | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/22_Going_3D_20102018/images/output.png) |
+| 23 | [Rotating Textured Cube](./OpenGL_On_Windows/GLFW/23_More_3D_20102018/README.md) | Render a rotating textured cube in 3D space | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/23_More_3D_20102018/images/output.png) |
+| 24 | [More Textured Cube](./OpenGL_On_Windows/GLFW/24_More_3D_Cubes_20102018/README.md) | Render more textured cube in 3D space | [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/24_More_3D_Cubes_20102018/images/output.png) |
+| 25 | [More Textured Cube V2](./OpenGL_On_Windows/GLFW/25_e1_More_3D_Cubes_25102018/README.md) | Render more textured cube in 3D space - V2| [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/25_e1_More_3D_Cubes_25102018/images/output.png) |
+| 26 | [More Textured Cube V3](./OpenGL_On_Windows/GLFW/26_e2_More_3D_Cubes_25102018/README.md) | Render more textured cube in 3D space - V3| [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/26_e2_More_3D_Cubes_25102018/images/output.png) |
+| 27 | [Rotating More Textured Cube](./OpenGL_On_Windows/27_e3_More_3D_Cubes_25102018/README.md) | Render rotating more textured cube in 3D space| [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/27_e3_More_3D_Cubes_25102018/images/output.png) |
+| 28 | [Set up Camera](./OpenGL_On_Windows/28_Setting_Up_Camera_25102018/README.md) | Camera Setup introduced and movement with keyboad keys| [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/28_Setting_Up_Camera_25102018/images/output.png) |
+| 29 | [Set up Camera](./OpenGL_On_Windows/29_Setting_Up_Camera_With_Mouse_Movements_26102018/README.md) | Camera Setup introduced and movement with keyboad keys and mouse movement| [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/29_Setting_Up_Camera_With_Mouse_Movements_26102018/images/output.png) |
+| 30 | [Set up Camera](./OpenGL_On_Windows/31_e1_Camera_Abstraction_WIthout_Fly_26102018/README.md) | Camera Object abstration from graphics rendering code V2| [Click me to see output](./OpenGL_On_Windows/GLFW/1_GettingStarted/31_e1_Camera_Abstraction_WIthout_Fly_26102018/images/output.png) |
 
 
 ### 🚀 Prerequisites
@@ -39,7 +46,7 @@ This Repository contains the demos of OpenGL applications. These demos are focus
   
 ### 🧠 Challenges/Issues
 ---
-** Linker error
+** Linker error  
 LINK : warning LNK4098: defaultlib 'MSVCRTD' conflicts with use of other libs; use /NODEFAULTLIB:library in command line
 ---
 **Untrack already committed files to the repository from GIT**

@@ -1,12 +1,12 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include "Include\glad\glad.h"
+#include "glad\glad.h"
 
 //OpenGL Mathematics (GLM) library
-#include "Include\glm\glm.hpp"
-#include "Include\glm\gtc\matrix_transform.hpp"
-#include "Include\glm\gtc\type_ptr.hpp"
+#include "glm\glm.hpp"
+#include "glm\gtc\matrix_transform.hpp"
+#include "glm\gtc\type_ptr.hpp"
 
 #include <string>
 #include <fstream>

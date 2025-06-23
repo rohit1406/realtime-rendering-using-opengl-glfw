@@ -13,6 +13,9 @@ On Windows, you might use opengl32.lib, which is the import library file for ope
 for OpenGL context and window management
 3. **KHR**    
 To keep things simpler Khronos maintains the khrplatform header to be used by other headers maintained by Khronos, defining common data types, tokens and calling convention macros. 
+4. **stb_image.h**  
+For Image loading  
+
 
 ## How To Run
 1. Open Visual Studio **Developer Command Prompt**

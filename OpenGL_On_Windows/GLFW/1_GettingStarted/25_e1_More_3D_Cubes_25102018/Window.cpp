@@ -17,20 +17,20 @@
 
 //header files
 #include<iostream>
-#include "Include\glad\glad.h" //glad.h should be before glfw3.h; it contains correct OpenGL headers includes
-#include "Include\GLFW\glfw3.h"
+#include "glad\glad.h" //glad.h should be before glfw3.h; it contains correct OpenGL headers includes
+#include "GLFW\glfw3.h"
 
 //OpenGL Mathematics (GLM) library
-#include "Include\glm\glm.hpp"
-#include "Include\glm\gtc\matrix_transform.hpp"
-#include "Include\glm\gtc\type_ptr.hpp"
+#include "glm\glm.hpp"
+#include "glm\gtc\matrix_transform.hpp"
+#include "glm\gtc\type_ptr.hpp"
 
 //to manage shaders and program objects
 #include "shader.h"
 
 //by defining this, the preprocessor modifies the header file such that it contains only the relevant definition source code
 #define STB_IMAGE_IMPLEMENTATION
-#include "Include\stb_image.h"
+#include "stb_image.h"
 
 //macros
 #define WIN_WIDTH 800
@@ -94,7 +94,7 @@ int main()
 	GLFWwindow* window = glfwCreateWindow(
 									WIN_WIDTH, //width
 									WIN_HEIGHT, //height
-									"OpenGL: Rectangle", //title
+									"OpenGL", //title
 									NULL, //monitor
 									NULL //share
 								);

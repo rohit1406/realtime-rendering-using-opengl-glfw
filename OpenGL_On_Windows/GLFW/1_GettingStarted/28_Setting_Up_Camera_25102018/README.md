@@ -1,5 +1,11 @@
 ## 🌱 Description
-The program is a demonstration of how to **render a Textured Rectangle** using OpenGL. GLFW library is used for the window management and OpenGL context management. To generate binary .exe file, follow [below steps](#how-to-run). Once .exe file is  executed, a new window will appear with an output rendered on it.
+The program is a demonstration of how to **render more Textured Cube** using OpenGL. The **camera** is set up in this program and movement is provided with keyboard keys.   
+Navigation Keys:  
+w: move forward  
+s: move backward  
+a: move left  
+d: move right  
+GLFW library is used for the window management and OpenGL context management. To generate binary .exe file, follow [below steps](#how-to-run). Once .exe file is  executed, a new window will appear with an output rendered on it.  
 
 ## 🗣️ Dependencies
 This project has dependencies on following libraries:
@@ -14,7 +20,9 @@ for OpenGL context and window management
 3. **KHR**    
 To keep things simpler Khronos maintains the khrplatform header to be used by other headers maintained by Khronos, defining common data types, tokens and calling convention macros. 
 4. **stb_image.h**  
-For Image loading
+For Image loading  
+5. **GLM**  
+Used for mathematical calculations
 
 ## How To Run
 1. Open Visual Studio **Developer Command Prompt**
